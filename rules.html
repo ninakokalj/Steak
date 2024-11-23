@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Slot Machine</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="rules_style.css">
+    </head>
+    <body>
+        <div class="rulesDiv">
+            <h1 class="gameTitle">Slot machine</h1>
+            <div class="bet">
+                <label for="money_bet">How much money do you want to bet? </label>
+                <input type="number" name="money_bet" id="money_bet" />
+            </div>
+            <button id="playButton">PLAY</button>
+            <div class="rules">
+                <h2>Rules:</h2>
+                <ul>
+                    <li>Each player starts with <strong>10 tries</strong> to spin the reels.</li>
+                    <li>The goal is to land a winning combination on the <strong>middle row</strong>.</li>
+                    <li>Refer to the payout table for combinations and their respective multipliers.</li>
+                    <li>The <strong>BAR symbol</strong> acts as a wildcard, substituting for any other symbol to complete a winning combination. &#127826;│BAR│&#127826; => &#127826;&#127826;&#127826;</li>
+                    <li>If a <strong>bell</strong> appears anywhere on the middle row, you earn <strong>one extra round</strong>.</li>
+                    <li>If you win enough to exceed your initial betting amount at any point, you can no longer lose.</li>
+                    <li>You will keep any amount above your starting bet, regardless of future spins.</li>
+                    <li>If you hit the <strong>"Pull Out"</strong> button when your total is higher than your starting bet, you will keep your winnings and end the game.</li>
+                    <li>If your total matches your starting bet and you hit <strong>"Pull Out"</strong> you will lose the amount you initially bet.</li>
+                    <li><strong>If you use all 10 tries and do not win any money, your starting bet is lost.</strong></li>
+                    <li>Only the middle row of the reels is checked for winning combinations.</li>
+                </ul>
+            </div>
+            <table class="rulesTable">
+                <tr>
+                    <th>Symbols</th>
+                    <th>Condition</th>
+                    <th>Payout (Multiplier of Bet)</th>
+                </tr>
+                <tr>
+                    <td>3 Matching Fruits</td>
+                    <td>E.g., &#127826;&#127826;&#127826; or &#127819;&#127819;&#127819; </td>
+                    <td>3x Bet</td>
+                </tr>
+                <tr>
+                    <td>2 Fruits + Bell</td>
+                    <td>E.g., &#127817;&#127817;&#128276;</td>
+                    <td>5x Bet</td>
+                </tr>
+                <tr>
+                    <td>3 Bells</td>
+                    <td>&#128276;&#128276;&#128276;</td>
+                    <td>10x Bet</td>
+                </tr>
+                <tr>
+                    <td>3 BAR Symbols</td>
+                    <td>│BAR││BAR││BAR│</td>
+                    <td>20x Bet</td>
+                </tr>
+                <tr>
+                    <td>3 Sevens</td>
+                    <td>777</td>
+                    <td>JACKPOT (100x Bet)</td>
+                </tr>
+                <tr>
+                  <td>Mixed Symbols</td>
+                  <td>E.g., &#127818;7&#127817; or &#127819;&#127819;&#127818;</td>
+                  <td>No payout (lose)</td>
+                </tr>
+            </table>
+            
+        </div>
+             
+        <script>
+            document.getElementById("playButton").addEventListener("click", function() {
+                const moneyBet = document.getElementById("money_bet").value;
+                if (moneyBet) {
+                    // redirect to index.html
+                    window.location.href = `index.html?money_bet=${moneyBet}`;
+                } else {
+                    alert("Please enter a bet amount.");
+                }
+            });
+        </script>
+    </body>
+
+
+
+</html>
