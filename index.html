@@ -21,15 +21,6 @@
             font-weight: bold;
         }
 
-        .main {
-            margin: 20px auto;
-            padding: 20px;
-            max-width: 800px;
-            background: #282828;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-        }
-
         h1 {
             font-size: 36px;
             margin-bottom: 10px;
@@ -72,6 +63,56 @@
             bottom:0;
             width: 100%;
         }
+
+        .main-short {
+            margin: 20px auto;
+            padding: 20px;
+            max-width: 800px;
+            background: #282828;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .main {
+            margin-top: 40px;
+            padding: 20px;
+            background: #282828;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .main h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .main p {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .team {
+            margin-top: 30px;
+        }
+
+        .team h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .team p {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        a {
+            color: #ff6700;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -79,21 +120,34 @@
         Steak: Bet Big, Win Juicy!
     </header>
 
-    <div class="main">
+    <div class="main-short">
         <h1>Welcome to Steak Casino!</h1>
         <br>
         <p>Your ultimate destination for top-tier casino games, juicy wins, and big payouts.</p>
         <p>Sign up today and taste the victory!</p>
 
         <div class="buttons">
-            <a href="login.html" class="btn">Login</a>
-            <a href="register.html" class="btn">Register</a>
+            <!---<a href="login.html" class="btn">Login</a>-->
+            <a href="register.html" class="btn">Sign Up</a>
         </div>
     </div>
-    
+
+    <div class="main">
+        <h2>About Us</h2>
+        <p>At Steak Casino, our mission is simple: create a premium gaming experience where you can bet big, and taste victory—all while having fun without the need to gamble real money.</p>
+
+        <div class="team">
+            <h2>Our Team</h2>
+            <p><b>Tomas Kostanjevec</b> - Experienced in PHP, passionate about databases.</p>
+            <p><b>Pika Žibert</b> - Collaborates at IJS, excels in web technologies, strong sense of aesthetics.</p>
+            <p><b>Nina Kokalj</b> - Collaborates at IJS, excels in algorithms for smart games, great imagination and creativity.</p>
+            <p><b>Jan Erjavec</b> - Professional gambler with in-depth knowledge, expert CSS skills.</p>
+            <br>
+        </div>
+    </div>
+
     <footer>
-        © 2024 Steak Casino | <span style="color: white;">support@steak.com</span> | <a href="about.html">About Us</a>
+        © 2024 Steak Casino | <span style="color: white;">support@steak.com</span>
     </footer>
-    
 </body>
 </html>
