@@ -77,17 +77,29 @@
         .door img:hover {
             transform: scale(1.05);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        #emergency img {
-            border-color: #FF5733;
             cursor: pointer;
         }
 
-        #emergency img:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(255, 87, 51, 0.5);
+        #door1 img {
+            border-color: #4CAF50;
         }
+
+        #door2 img {
+            border-color: #FFA500;
+        }
+
+        #door3 img {
+            border-color: #FF5733;
+        }
+
+        #emergency img {
+            border-color: #88d80f;
+        }
+
+        #emergency img {
+            border-color: #cbe8ec;
+        }
+
 
         .behind-door {
             position: absolute;
@@ -160,13 +172,14 @@
             }
             
             score = bet;
-            chanceOfDeath = Math.random() * 0.33;
+            chanceOfDeath = Math.random() * 0.15;
             roundsPlayed = 1;
             isGameOver = false;
             gameStarted = true;
             document.getElementById('message').querySelector('p').textContent = `Current Score: ${score}, chance of death:${Math.round(chanceOfDeath * 100)}%`;
         }
 
+        // dodej low risk, moderate risk, high risk vrata -> delam na tem 
 
         function openDoor(doorNumber) {
             if (!gameStarted || isGameOver) {
@@ -176,7 +189,6 @@
 
             const door = document.getElementById(`door${doorNumber}`);
             const img = door.querySelector('img');
-            const floor = door.querySelector('h3');
             const number = document.getElementById(`number${doorNumber}`);
             const survived = Math.random();
             const winSound = document.getElementById("winSound");
@@ -189,47 +201,71 @@
             if (survived < chanceOfDeath) {
                 number.textContent = "💣";
                 number.style.display = "block";
-                score *= -1;
-                bombSound.play()
+                score *= -1; // Izguba vseh točk
+                bombSound.play();
                 setTimeout(() => endGame("You hit a bomb! Game over."), 1500);
-            } else {
-                const randomNumber = Math.floor(Math.random() * 100) + 1; 
-
-                let outcome;
-                const operations = ["+", "+", "×", "-", "×", "÷"];
-                const randomOperation = operations[Math.floor(Math.random() * operations.length)];
-                switch (randomOperation) {
-                    case "+":
-                        outcome = `+ ${randomNumber}`;
-                        score += randomNumber;
-                        number.style.color = 'green';
-                        winSound.play()
-                        break;
-                    case "-":
-                        outcome = `- ${randomNumber}`;
-                        score -= randomNumber;
-                        number.style.color = 'red';
-                        loseSound.play()
-                        break;
-                    case "×":
-                        outcome = `× ${randomNumber}`;
-                        score *= randomNumber;
-                        number.style.color = 'green';
-                        winSound.play()
-                        break;
-                    case "÷":
-                        outcome = `÷ ${randomNumber}`;
-                        score = Math.floor(score / randomNumber); 
-                        number.style.color = 'red';
-                        loseSound.play()
-                        break;
-                }
-                
-                number.textContent = outcome;
-                number.style.display = "block";
+                return;
             }
-            setTimeout(() => resetState(doorNumber), 1500); 
+
+            const randomNumber = Math.floor(Math.random() * 100) + 1;
+            let outcome;
+            let randomOperation;
+
+            switch (doorNumber) {
+                case 1: // Low Risk
+                    chanceOfDeath += 0.05; // malo povečaj tveganje
+                    randomOperation = Math.random() < 0.9 ? "+" : "-"; // pogosteje +
+                    break;
+                case 2: // Moderate Risk
+                    chanceOfDeath += 0.1; // zmerno povečanje tveganja
+                    randomOperation = Math.random() < 0.6 ? "+" : (Math.random() < 0.5 ? "×" : "-");
+                    break;
+                case 3: // High Risk
+                    chanceOfDeath += + 0.2; // veliko povečanje tveganja
+                    randomOperation = Math.random() < 0.55 ? "×" : "÷"; // samo × in ÷
+                    break;
+                default:
+                    alert("Invalid door selected!");
+                    return;
+            }
+
+            if (chanceOfDeath > 1.0) {
+                chanceOfDeath = 1.0; 
+            }
+
+            switch (randomOperation) {
+                case "+":
+                    outcome = `+ ${randomNumber}`;
+                    score += randomNumber;
+                    number.style.color = 'green';
+                    winSound.play();
+                    break;
+                case "-":
+                    outcome = `- ${randomNumber}`;
+                    score -= randomNumber;
+                    number.style.color = 'red';
+                    loseSound.play();
+                    break;
+                case "×":
+                    outcome = `× ${randomNumber}`;
+                    score *= randomNumber;
+                    number.style.color = 'green';
+                    winSound.play();
+                    break;
+                case "÷":
+                    outcome = `÷ ${randomNumber}`;
+                    score = Math.floor(score / randomNumber);
+                    number.style.color = 'red';
+                    loseSound.play();
+                    break;
+            }
+
+            number.textContent = outcome;
+            number.style.display = "block";
+            document.getElementById('message').querySelector('p').textContent = `Current Score: ${score}, Chance of Death: ${Math.round(chanceOfDeath * 100)}%`;
+            setTimeout(() => resetState(doorNumber), 1500);
         }
+
 
 
         function resetState(doorNumber) {
@@ -243,7 +279,7 @@
             number.style.display = "none";
 
             roundsPlayed += 1
-            chanceOfDeath = Math.min(1.0, chanceOfDeath + Math.random() * 0.15);
+            //chanceOfDeath = Math.min(1.0, chanceOfDeath + Math.random() * 0.15);
             document.getElementById('message').querySelector('p').textContent = `Current Score: ${score}, chance of death:${Math.round(chanceOfDeath * 100)}%`;
         }
 
