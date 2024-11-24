@@ -1,0 +1,295 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Behind Door</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            margin-top: 20px;
+        }
+
+        label, input, button {
+            display: block;
+            margin: 10px auto;
+            text-align: center;
+        }
+
+        label {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 50%;
+            padding: 8px;
+            font-size: 16px;
+            border: 2px solid #4CAF50;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #game-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px auto;
+            width: 90%;
+            max-width: 800px;
+            flex-wrap: wrap;
+        }
+
+        .door {
+            position: relative;
+            text-align: center;
+            margin: 10px;
+        }
+
+        .door img {
+            height: 250px;
+            border: 4px solid #ddd;
+            border-radius: 10px;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s;
+        }
+
+        .door img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        #emergency img {
+            border-color: #FF5733;
+            cursor: pointer;
+        }
+
+        #emergency img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 87, 51, 0.5);
+        }
+
+        .behind-door {
+            position: absolute;
+            top: 50%;
+            left: 60%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            display: none;
+        }
+
+        #message {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Behind the Door</h1>
+        <label for="bet">How much do you want to bet?</label>
+        <input type="text" id="bet" name="bet">
+        <button type="submit" value="start">Start Game</button>
+        <div id="game-container">
+            <div class="door" id="door1" onclick="openDoor(1)">
+                <img src="closed-door.png" alt="Closed Door">
+                <div class="behind-door" id="number1"></div>
+            </div>
+            <div class="door" id="door2" onclick="openDoor(2)">
+                <img src="closed-door.png" alt="Closed Door">
+                <div class="behind-door" id="number2"></div>
+            </div>
+            <div class="door" id="door3" onclick="openDoor(3)">
+                <img src="closed-door.png" alt="Closed Door">
+                <div class="behind-door" id="number3"></div>
+            </div>
+            <div class="door" id="emergency" onclick="cashOut()">
+                <img src="emergency-door.png" alt="Emergency Door">
+            </div>
+        </div>
+        <div id="message">
+            <p>Welcome! Place your bet to start the game.</p>
+        </div>
+
+        <audio id="winSound" src="buff.mp3" preload="auto"></audio>
+        <audio id="loseSound" src="damage.mp3" preload="auto"></audio>
+        <audio id="bombSound" src="bomb.mp3" preload="auto"></audio>
+
+    </main>
+
+    <script>
+        let score = 0; 
+        let roundsPlayed = 0; 
+        let chanceOfDeath = Math.random() * 0.33;
+        let isGameOver = false; 
+        let gameStarted = false;
+        let doorsContent = [];
+        document.querySelector('button').addEventListener('click', startGame);
+
+        function startGame() {
+            const bet = parseInt(document.getElementById("bet").value, 10);
+            if (isNaN(bet) || bet <= 0) {
+                alert("Please enter a valid bet amount!");
+                return;
+            }
+            
+            score = bet;
+            chanceOfDeath = Math.random() * 0.33;
+            roundsPlayed = 1;
+            isGameOver = false;
+            gameStarted = true;
+            document.getElementById('message').querySelector('p').textContent = `Current Score: ${score}, chance of death:${Math.round(chanceOfDeath * 100)}%`;
+        }
+
+
+        function openDoor(doorNumber) {
+            if (!gameStarted || isGameOver) {
+                alert("Bet before trying to start the game!");
+                return;
+            }
+
+            const door = document.getElementById(`door${doorNumber}`);
+            const img = door.querySelector('img');
+            const floor = door.querySelector('h3');
+            const number = document.getElementById(`number${doorNumber}`);
+            const survived = Math.random();
+            const winSound = document.getElementById("winSound");
+            const loseSound = document.getElementById("loseSound");
+            const bombSound = document.getElementById("bombSound");
+
+            img.src = "open-door.png";
+            img.alt = "Open Door";
+
+            if (survived < chanceOfDeath) {
+                number.textContent = "💣";
+                number.style.display = "block";
+                score *= -1;
+                bombSound.play()
+                setTimeout(() => endGame("You hit a bomb! Game over."), 1500);
+            } else {
+                const randomNumber = Math.floor(Math.random() * 100) + 1; 
+
+                let outcome;
+                if (roundsPlayed === 1) {
+                    // Round 1: Only positive rewards
+                    outcome = `+${randomNumber}`;
+                    score += randomNumber;
+                    winSound.play()
+                    number.style.color = 'green';
+                } else {
+                    // Round 2+: Random outcomes (+, -, ×, ÷)
+                    const operations = ["+", "+", "×", "-", "×", "÷"];
+                    const randomOperation = operations[Math.floor(Math.random() * operations.length)];
+                    switch (randomOperation) {
+                        case "+":
+                            outcome = `+ ${randomNumber}`;
+                            score += randomNumber;
+                            number.style.color = 'green';
+                            winSound.play()
+                            break;
+                        case "-":
+                            outcome = `- ${randomNumber}`;
+                            score -= randomNumber;
+                            number.style.color = 'red';
+                            loseSound.play()
+                            break;
+                        case "×":
+                            outcome = `× ${randomNumber}`;
+                            score *= randomNumber;
+                            number.style.color = 'green';
+                            winSound.play()
+                            break;
+                        case "÷":
+                            outcome = `÷ ${randomNumber}`;
+                            score = Math.floor(score / randomNumber); 
+                            number.style.color = 'red';
+                            loseSound.play()
+                            break;
+                    }
+                }
+
+                number.textContent = outcome;
+                number.style.display = "block";
+            }
+            setTimeout(() => resetState(doorNumber), 1500); 
+        }
+
+
+        function resetState(doorNumber) {
+            const door = document.getElementById(`door${doorNumber}`);
+            const img = door.querySelector('img');
+            const number = document.getElementById(`number${doorNumber}`);
+
+            // Reset door
+            img.src = "closed-door.png";
+            img.alt = "Closed Door";
+            number.style.display = "none";
+
+            roundsPlayed += 1
+            chanceOfDeath = Math.min(1.0, chanceOfDeath + Math.random() * 0.15);
+            document.getElementById('message').querySelector('p').textContent = `Current Score: ${score}, chance of death:${Math.round(chanceOfDeath * 100)}%`;
+        }
+
+        function endGame(message) {
+            isGameOver = true;
+            document.getElementById('message').querySelector('p').textContent = message;
+            alert(`Game over! You lost ${score} Meat.`);
+            resetGame();
+        }
+
+        function cashOut() {
+            alert(`Cash Out! You ended the game with a score of ${score}.`);
+            resetGame();
+        }
+
+        function resetGame() {
+            score = 0;
+            roundsPlayed = 0;
+            chanceOfDeath = 0;
+            isGameOver = false;
+            gameStarted = false;
+
+            document.getElementById('message').querySelector('p').textContent = "Welcome! Place your bet to start the game.";
+
+            document.querySelectorAll('.door').forEach(door => {
+                if (door.id !== "emergency") {
+                    const img = door.querySelector('img');
+                    img.src = "closed-door.png";
+                    img.alt = "Closed Door";
+
+                    const number = door.querySelector('.behind-door');
+                    number.style.display = "none";
+                }
+            });
+        }
+
+
+    </script>
+</body>
+</html>
