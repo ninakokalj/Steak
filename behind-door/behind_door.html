@@ -196,44 +196,35 @@
                 const randomNumber = Math.floor(Math.random() * 100) + 1; 
 
                 let outcome;
-                if (roundsPlayed === 1) {
-                    // Round 1: Only positive rewards
-                    outcome = `+${randomNumber}`;
-                    score += randomNumber;
-                    winSound.play()
-                    number.style.color = 'green';
-                } else {
-                    // Round 2+: Random outcomes (+, -, ×, ÷)
-                    const operations = ["+", "+", "×", "-", "×", "÷"];
-                    const randomOperation = operations[Math.floor(Math.random() * operations.length)];
-                    switch (randomOperation) {
-                        case "+":
-                            outcome = `+ ${randomNumber}`;
-                            score += randomNumber;
-                            number.style.color = 'green';
-                            winSound.play()
-                            break;
-                        case "-":
-                            outcome = `- ${randomNumber}`;
-                            score -= randomNumber;
-                            number.style.color = 'red';
-                            loseSound.play()
-                            break;
-                        case "×":
-                            outcome = `× ${randomNumber}`;
-                            score *= randomNumber;
-                            number.style.color = 'green';
-                            winSound.play()
-                            break;
-                        case "÷":
-                            outcome = `÷ ${randomNumber}`;
-                            score = Math.floor(score / randomNumber); 
-                            number.style.color = 'red';
-                            loseSound.play()
-                            break;
-                    }
+                const operations = ["+", "+", "×", "-", "×", "÷"];
+                const randomOperation = operations[Math.floor(Math.random() * operations.length)];
+                switch (randomOperation) {
+                    case "+":
+                        outcome = `+ ${randomNumber}`;
+                        score += randomNumber;
+                        number.style.color = 'green';
+                        winSound.play()
+                        break;
+                    case "-":
+                        outcome = `- ${randomNumber}`;
+                        score -= randomNumber;
+                        number.style.color = 'red';
+                        loseSound.play()
+                        break;
+                    case "×":
+                        outcome = `× ${randomNumber}`;
+                        score *= randomNumber;
+                        number.style.color = 'green';
+                        winSound.play()
+                        break;
+                    case "÷":
+                        outcome = `÷ ${randomNumber}`;
+                        score = Math.floor(score / randomNumber); 
+                        number.style.color = 'red';
+                        loseSound.play()
+                        break;
                 }
-
+                
                 number.textContent = outcome;
                 number.style.display = "block";
             }
