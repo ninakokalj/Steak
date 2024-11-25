@@ -1,0 +1,94 @@
+.rulesDiv {
+    width: 60%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.gameTitle {
+    font-size: 3.5rem;
+}
+
+/* RULES */
+.rules {
+    text-align: left;
+    margin-bottom: 50px;
+    margin-top: 20px;
+}
+.rules li {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+}
+
+/* INPUT */
+.bet {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 80px 0 20px 0;
+}
+.bet label {
+    font-size: 3rem;
+    font-weight: bold;
+}
+.bet input {
+    font-size: 2.6rem;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 160px;
+}
+
+/* PLAY BUTTON */
+#playButton {
+    margin-top: 20px;
+    margin-bottom: 40px;
+    padding: 10px 20px;
+    font-size: 2.5rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+#playButton:hover {
+    background-color: #45a049;
+}
+#playButton:active {
+    transform: scale(0.95);
+}
+
+/* RULES TABLE */
+.rulesTable {
+    width: 80%;
+    border-collapse: collapse;
+    margin: 0 0 20px 0;
+}
+.rulesTable th, .rulesTable td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+.rulesTable th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    font-size: 1.3rem;
+} 
+.rulesTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+.rulesTable td {
+    font-size: 1.3rem;
+    line-height: 1.5;
+}
+.rulesTable td i {
+    font-size: 1.3rem;
+}
+  
+  
