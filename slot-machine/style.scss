@@ -1,0 +1,55 @@
+$icon_width: 150px;
+$icon_height: 150px;
+$num_icons: 9;
+
+html, body {
+    height: 100%;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.slots {
+    width: 3.5 * $icon_width;
+    height: 3 * $icon_height;
+    border: 1px solid black;
+    padding: 0.3 * $icon_height;
+    display: flex;
+    justify-content: space-between;
+    background: linear-gradient(to right, #ff7b7b, #ffd27f, #7bff7f);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+    .reel {
+        border: 1px solid;
+        width: $icon_width;
+        height: 3 * $icon_height;
+        background-image: url(https://assets.codepen.io/439000/slotreel.webp);
+        background-size: $icon_width calc(#{$num_icons} * #{$icon_height});
+        background-repeat: repeat-y;
+        background-position: 0 0;
+    }
+}
+
+button.roll {
+    margin-top: 2.5rem; 
+    padding: 1rem 2rem; 
+    font-size: 1.5rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+button.roll:hover {
+    background-color: #0056b3;
+}
+
+button.roll:active {
+    transform: scale(0.95); 
+}
+

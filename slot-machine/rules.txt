@@ -1,0 +1,39 @@
+10 poskusov
+3 x fruit            -> 3 x bet
+2 x fruit + 1 x bell -> 5 x bet
+3 x bell             -> 10 x bet
+3 x bar              -> 20 x bet
+3 x seven            -> jackpot (100 x bet)
+
+- bar zamenja karkoli
+- bell na ekranu -> dobiš še en poskus
+
+Tries:
+
+Each player starts with 10 tries to spin the reels.
+The goal is to land a winning combination on the middle row.
+
+Winning Combinations:
+
+Refer to the payout table for combinations and their respective multipliers.
+The BAR symbol acts as a wildcard, substituting for any other symbol to complete a winning combination.
+Example: Two cherries and a BAR symbol will count as three cherries.
+
+Bonus Round:
+
+If a bell appears anywhere on the middle row, you earn one extra round.
+
+Winning and Payouts:
+
+If you win enough to exceed your initial betting amount at any point, you can no longer lose.
+You will keep any amount above your starting bet, regardless of future spins.
+If you hit the "Pull Out" button when your total is higher than your starting bet, you will keep your winnings and end the game.
+If your total matches your starting bet and you hit "Pull Out," you will lose the amount you initially bet.
+
+Losing:
+
+If you use all 10 tries and do not win any money, your starting bet is lost.
+
+Important:
+
+Only the middle row of the reels is checked for winning combinations.
