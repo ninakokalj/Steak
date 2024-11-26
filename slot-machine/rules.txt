@@ -8,32 +8,14 @@
 - bar zamenja karkoli
 - bell na ekranu -> dobiš še en poskus
 
-Tries:
 
-Each player starts with 10 tries to spin the reels.
+Each spin costs the amount you bet.
 The goal is to land a winning combination on the middle row.
-
-Winning Combinations:
-
 Refer to the payout table for combinations and their respective multipliers.
-The BAR symbol acts as a wildcard, substituting for any other symbol to complete a winning combination.
-Example: Two cherries and a BAR symbol will count as three cherries.
-
-Bonus Round:
-
-If a bell appears anywhere on the middle row, you earn one extra round.
-
-Winning and Payouts:
-
-If you win enough to exceed your initial betting amount at any point, you can no longer lose.
-You will keep any amount above your starting bet, regardless of future spins.
-If you hit the "Pull Out" button when your total is higher than your starting bet, you will keep your winnings and end the game.
-If your total matches your starting bet and you hit "Pull Out," you will lose the amount you initially bet.
-
-Losing:
-
-If you use all 10 tries and do not win any money, your starting bet is lost.
-
-Important:
-
+The BAR symbol acts as a wildcard, substituting for any other symbol to complete a winning combination. 🍒│BAR│🍒 => 🍒🍒🍒
+If a bell appears anywhere on the middle row, you earn one extra spin for free.
+If you win on a spin, your bet is multiplied by the payout multiplier and added to your total balance.
+If you do not win on a spin, you lose the amount you bet for that roll.
+The game continues while you have money to bet or until you click the "End Game" button.
+Money is deducted or added to your total balance only when the game ends.
 Only the middle row of the reels is checked for winning combinations.

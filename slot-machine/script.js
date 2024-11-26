@@ -1,6 +1,8 @@
-const urlParams = new URLSearchParams(window.location.search);
-const betAmount = urlParams.get('money_bet');
-console.log(betAmount);
+const msg = document.querySelector('.message');
+const currentProfitInput = document.querySelector('#profitInput');
+let betAmount;
+let currentProfit = 0.0;
+let freeRoll = false;
 
 const icon_width = 150,
     icon_height = 150,
@@ -45,10 +47,65 @@ function rollAll() {
             deltas.forEach((delta, i) => indexes[i] = (indexes[i] + delta) % num_icons )
             console.log(indexes);
             // check wins
+            checkWins(indexes);
+            msg.classList.add('blink');
+            currentProfitInput.value = '\u{1F969}' + currentProfit.toFixed(2);
+            setTimeout(() => {
+                msg.classList.remove('blink');
+            }, 1500);
         })
 }
 
-rollButton.addEventListener("click", rollAll);
+rollButton.addEventListener("click", () => {
+    betAmount = parseFloat(document.getElementById('betSize').value);
+    if (betAmount <= 0) {
+        msg.textContent = 'Please enter a bet amount';
+        // pogledam če ma dost na računu
+    } else {
+        
+        rollAll();
+    }
+});
+
+function checkWins(indexes) {
+    const deduct = !freeRoll;
+    checkForFreeRoll(indexes);
+    if (indexes.every(element => element === indexes[0])) {
+        checkWin(indexes[0]);
+
+    } else if (indexes.includes(6)) {
+        if (indexes[0] === indexes[1] || indexes[0] === indexes[2] || indexes[1] === indexes[2]) {
+            checkWin(indexes.find(element => element !== 6));
+        }
+    } else {
+        msg.textContent = 'NO WIN';
+        if (deduct) {
+            currentProfit -= betAmount;
+        }
+    }
+
+    rollButton.textContent = freeRoll ? "FREE ROLL" : "ROLL";
+    
+
+}
+function checkWin(element) {
+    if (element === 1) { // 7 7 7
+        msg.textContent = 'JACKPOT';
+        currentProfit += betAmount * 100;
+    } else if (element === 5) { // bell bell bell
+        msg.textContent = 'YOU WIN';
+        currentProfit += betAmount * 10;
+    } else if (element === 6) {  // BAR BAR BAR
+        msg.textContent = 'YOU WIN';
+        currentProfit += betAmount * 20;
+    } else {    // fruit fruit fruit
+        msg.textContent = 'YOU WIN';
+        currentProfit += betAmount * 3;
+    }
+}
+function checkForFreeRoll(indexes) {
+    freeRoll = indexes.includes(5);
+}
 
 /*
 banana -> 0

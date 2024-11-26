@@ -7,8 +7,143 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
+/* MESSAGE */
+.message {
+  margin-bottom: 100px;
+  font-size: 3rem;
+}
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.blink {
+  animation: blink 0.5s infinite;
+}
+
+/* CONTAINER: INFO + SLOT + CONTROLS*/
+.container {
+  display: flex;
+  justify-content: space-between; 
+  align-items: flex-start;
+  gap: 20px; 
+}
+
+/* INFO MODAL */
+#info {
+  margin-right: 20px;
+  font-size: 2.3rem;
+}
+#info:hover {
+  cursor: pointer;
+}
+.modal {
+  display: none; 
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.modal-content {
+  background-color: white;
+  margin: 10% auto; 
+  padding: 20px;
+  border: 1px solid #888;
+  width: 40%;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.modal-content h2 {
+  margin-left: 25px;
+  font-size: 2rem;
+}
+li {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  margin-left: 40px;
+}
+/* RULES TABLE */
+.rulesTable {
+  width: 80%;
+  border-collapse: collapse;
+  margin: 50px auto 40px auto;
+}
+.rulesTable th, .rulesTable td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+.rulesTable th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+  font-size: 1.2rem;
+} 
+.rulesTable tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+.rulesTable td {
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+.rulesTable td i {
+  font-size: 1.2rem;
+}
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* CONTROLS */
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-right: 30px;
+  margin-left: 30px;
+  margin-top: 20px;
+}
+label {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+  text-align: left;
+}
+input {
+  margin: 5px 0;
+  padding: 8px;
+  width: 200px;
+  font-size: 1.5rem;
+  box-sizing: border-box;
+}
+
+/* SLOTS */
+.slotsNbutton {
+  display: flex; /* Enable flexbox for layout */
+  flex-direction: column; /* Stack the slots and button vertically */
+  align-items: center; /* Center the items horizontally */
+  gap: 15px; /* Add spacing between the slots and button */
+}
 .slots {
   width: 525px;
   height: 450px;
@@ -29,6 +164,7 @@ body {
   background-position: 0 0;
 }
 
+/* ROLL BUTTON */
 button.roll {
   margin-top: 2.5rem;
   padding: 1rem 2rem;
@@ -41,11 +177,9 @@ button.roll {
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease;
 }
-
 button.roll:hover {
   background-color: #0056b3;
 }
-
 button.roll:active {
   transform: scale(0.95);
 }/*# sourceMappingURL=style.css.map */

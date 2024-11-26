@@ -5,15 +5,111 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="style.css">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     </head>
     <body>
-        <div class="slots">
-            <div class="reel"></div>
-            <div class="reel"></div>
-            <div class="reel"></div>
+        <h2 class="message">Welcome! Enter a bet amount to start.</h2>
+        <div class="container">
+        <i id="info" class="fa-solid fa-circle-info"></i>
+        <!-- Modal -->
+        <div class="modal" id="infoModal">
+            <div class="modal-content">
+                <span class="close" id="closeModal">&times;</span>
+                <h2>Information</h2>
+                <ul>
+                    <li>Each spin costs the amount you bet.</li>
+                    <li>The goal is to land a winning combination on the <strong>middle row</strong>.</li>
+                    <li>Refer to the payout table for combinations and their respective multipliers.</li>
+                    <li>The <strong>BAR symbol</strong> acts as a wildcard, substituting for any other symbol to complete a winning combination.<br>&#127826;│BAR│&#127826; => &#127826;&#127826;&#127826;<br></li>
+                    <li>If a <strong>bell</strong> appears anywhere on the middle row, you earn one extra spin for free.</li>
+                    <li>If you win on a spin, your bet is multiplied by the payout multiplier.</li>
+                    <li>If you do not win on a spin, you <strong>lose</strong> the amount you bet for that roll.</li>
+                    <li>The game continues while you have money to bet or until you click the </strong>End Game</strong> button.</li>
+                    <li>Money is deducted or added to your total balance only when the game ends.</li>
+                </ul>
+                <table class="rulesTable">
+                    <tr>
+                        <th>Symbols</th>
+                        <th>Condition</th>
+                        <th>Payout (Multiplier of Bet)</th>
+                    </tr>
+                    <tr>
+                        <td>3 Matching Fruits</td>
+                        <td>E.g., &#127826;&#127826;&#127826; or &#127819;&#127819;&#127819; </td>
+                        <td>3x Bet</td>
+                    </tr>
+                    <tr>
+                        <td>2 Fruits + Bell</td>
+                        <td>E.g., &#127817;&#127817;&#128276;</td>
+                        <td>5x Bet</td>
+                    </tr>
+                    <tr>
+                        <td>3 Bells</td>
+                        <td>&#128276;&#128276;&#128276;</td>
+                        <td>10x Bet</td>
+                    </tr>
+                    <tr>
+                        <td>3 BAR Symbols</td>
+                        <td>│BAR││BAR││BAR│</td>
+                        <td>20x Bet</td>
+                    </tr>
+                    <tr>
+                        <td>3 Sevens</td>
+                        <td>777</td>
+                        <td>JACKPOT (100x Bet)</td>
+                    </tr>
+                    <tr>
+                      <td>Mixed Symbols</td>
+                      <td>E.g., &#127818;7&#127817; or &#127819;&#127819;&#127818;</td>
+                      <td>No payout (lose)</td>
+                    </tr>
+                </table>
+            </div>
         </div>
-        <button class="roll">ROLL</button>    
+        <div class="slotsNbutton">
+            <div class="slots">
+                <div class="reel"></div>
+                <div class="reel"></div>
+                <div class="reel"></div>
+            </div>
+            <button class="roll">ROLL</button>
+        </div>
+        
+        <div class="controls">
+                
+            <label for="betSize">Bet Size:</label>
+            <input type="number" id="betSize" value="0" min="0.01">
+            
+            <label for="profitInput">Current Profit:</label>
+            <input type="text" id="profitInput" value="&#129385;0.00" readonly>
+            
+        </div>
+         
+        </div>  
         <script src="script.js"></script>
+        <script>
+            // Get elements
+            const infoIcon = document.getElementById('info');
+            const infoModal = document.getElementById('infoModal');
+            const closeModal = document.getElementById('closeModal');
+        
+            // Show the modal when the icon is clicked
+            infoIcon.addEventListener('click', () => {
+                infoModal.style.display = 'block';
+            });
+        
+            // Close the modal when the "X" button is clicked
+            closeModal.addEventListener('click', () => {
+                infoModal.style.display = 'none';
+            });
+        
+            // Close the modal when clicking outside the modal content
+            window.addEventListener('click', (event) => {
+                if (event.target === infoModal) {
+                    infoModal.style.display = 'none';
+                }
+            });
+        </script>
     </body>
 
 
