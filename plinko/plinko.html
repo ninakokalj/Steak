@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plinko</title>
+    <style>
+        canvas {
+            display: block;
+            margin: 20px auto;
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+        }
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        #scoreboard {
+            margin: 20px;
+        }
+        #controls {
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="scoreboard">
+        <h1>Plinko Gambling Game</h1>
+        <p><strong>Balance:</strong> <span id="score">10</span></p>
+    </div>
+    <div id="controls">
+        <button id="randomBallButton">Spawn Random Ball</button>
+    </div>
+    <canvas id="plinkoCanvas"></canvas>
+    <script>
+        const canvas = document.getElementById('plinkoCanvas');
+        const ctx = canvas.getContext('2d');
+        const randomBallButton = document.getElementById('randomBallButton');
+
+        canvas.width = 800;
+        canvas.height = 600;
+
+        const balls = [];
+        const ballRadius = 8;
+
+        const gravity = 0.3;
+
+        const pegs = [];
+        const pegRadius = 7;
+        const rows = 12;
+        const cols = 18;
+        const pegSpacingX = canvas.width / (cols + 1);
+        const pegSpacingY = 40;
+
+        // Multiplier zones
+        const multipliers = [0.5, 1, 2, 5, 10, 5, 2, 1, 0.5];
+        const multiplierZones = [];
+        const zoneHeight = 40;
+        const zoneWidth = canvas.width / multipliers.length;
+
+        for (let row = 0; row < rows; row++) {
+            for (let col = 0; col < cols; col++) {
+                const offsetX = row % 2 === 0 ? pegSpacingX / 2 : 0; // offset every other row
+                pegs.push({
+                    x: col * pegSpacingX + offsetX + pegSpacingX / 2,
+                    y: row * pegSpacingY + 80,
+                });
+            }
+        }
+
+        for (let i = 0; i < multipliers.length; i++) {
+            multiplierZones.push({
+                x: i * zoneWidth,
+                y: canvas.height - zoneHeight,
+                width: zoneWidth,
+                multiplier: multipliers[i],
+            });
+        }
+
+        function drawBall(ball) {
+            ctx.beginPath();
+            ctx.arc(ball.x, ball.y, ballRadius, 0, Math.PI * 2);
+            ctx.fillStyle = ball.color;
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function drawPegs() {
+            pegs.forEach(peg => {
+                ctx.beginPath();
+                ctx.arc(peg.x, peg.y, pegRadius, 0, Math.PI * 2);
+                ctx.fillStyle = '#3498db';
+                ctx.fill();
+                ctx.closePath();
+            });
+        }
+
+        function drawMultiplierZones() {
+            multiplierZones.forEach(zone => {
+                ctx.fillStyle = '#ecf0f1';
+                ctx.fillRect(zone.x, zone.y, zone.width, zoneHeight);
+                ctx.strokeStyle = '#7f8c8d';
+                ctx.strokeRect(zone.x, zone.y, zone.width, zoneHeight);
+
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = '16px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(
+                    `${zone.multiplier}x`,
+                    zone.x + zone.width / 2,
+                    zone.y + zoneHeight / 2 + 6
+                );
+            });
+        }
+
+        function addBall(x) {
+            balls.push({
+                x: x,
+                y: 50,
+                vx: 0,
+                vy: 0,
+                color: `hsl(${Math.random() * 360}, 70%, 50%)`,
+                scored: false,
+            });
+        }
+
+        function spawnRandomBall() {
+            if (totalScore >= 1) {
+                const randomX = Math.random() * canvas.width;
+                addBall(randomX);
+
+                totalScore -= 1;
+                document.getElementById('score').textContent = totalScore.toFixed(2);
+            } else {
+                alert("Balance not big enough to place a bet!");
+            }
+        }
+
+        function checkCollisions(ball) {
+            pegs.forEach(peg => {
+                const dx = ball.x - peg.x;
+                const dy = ball.y - peg.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < ballRadius + pegRadius) {
+                    // collision
+                    const angle = Math.atan2(dy, dx);
+                    ball.vx += Math.cos(angle) * 2;
+                    ball.vy += Math.sin(angle) * 2;
+                }
+            });
+        }
+
+        function checkMultiplierZone(ball) {
+            if (ball.y + ballRadius >= canvas.height - zoneHeight && !ball.scored) {
+                for (const zone of multiplierZones) {
+                    if (ball.x >= zone.x && ball.x <= zone.x + zone.width) {
+                        updateScore(zone.multiplier);
+                        ball.scored = true;
+                        ball.vy = 0; // stop ball vertical movement
+                        ball.vx = 0; // stop ball horizontal movement
+                        ball.x = Math.max(zone.x + ballRadius, Math.min(zone.x + zone.width - ballRadius, ball.x)); // constrain ball to zone horizontally
+                        ball.y = canvas.height - zoneHeight - ballRadius; // ball stays within the multiplier zone
+                        break;
+                    }
+                }
+            }
+        }
+
+        let totalScore = 10; // starting balance is 10
+        function updateScore(multiplier) {
+            totalScore += multiplier;
+            document.getElementById('score').textContent = totalScore.toFixed(2);
+        }
+
+        function update() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            drawPegs();
+            drawMultiplierZones();
+
+            balls.forEach(ball => {
+                ball.vy += gravity;
+
+                ball.x += ball.vx;
+                ball.y += ball.vy;
+
+                if (ball.x - ballRadius < 0 || ball.x + ballRadius > canvas.width) {
+                    ball.vx *= -0.9;
+                    ball.x = Math.max(ballRadius, Math.min(canvas.width - ballRadius, ball.x));
+                }
+
+                if (ball.y + ballRadius > canvas.height) {
+                    ball.y = canvas.height - ballRadius;
+                    ball.vy *= -0.6;
+                }
+
+                checkCollisions(ball);
+                checkMultiplierZone(ball);
+                drawBall(ball);
+            });
+
+            requestAnimationFrame(update);
+        }
+
+        update();
+
+        randomBallButton.addEventListener('click', spawnRandomBall);
+    </script>
+</body>
+</html>
