@@ -42,7 +42,7 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
-            background-image: url('wall.png');
+            background-image: url('media/wall.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -239,19 +239,19 @@
             </div>
             <div id="game-container">
                 <div class="door" id="door1" onclick="openDoor(1)">
-                    <img src="closed-door.png" alt="Closed Door">
+                    <img src="media/closed-door.png" alt="Closed Door">
                     <div class="behind-door" id="number1"></div>
                 </div>
                 <div class="door" id="door2" onclick="openDoor(2)">
-                    <img src="closed-door.png" alt="Closed Door">
+                    <img src="media/closed-door.png" alt="Closed Door">
                     <div class="behind-door" id="number2"></div>
                 </div>
                 <div class="door" id="door3" onclick="openDoor(3)">
-                    <img src="closed-door.png" alt="Closed Door">
+                    <img src="media/closed-door.png" alt="Closed Door">
                     <div class="behind-door" id="number3"></div>
                 </div>
                 <div class="door" id="emergency" onclick="cashOut()">
-                    <img src="emergency-door.png" alt="Emergency Door">
+                    <img src="media/emergency-door.png" alt="Emergency Door">
                 </div>
             </div>
             <div id="message">
@@ -259,9 +259,9 @@
             </div>
         </div>
 
-        <audio id="winSound" src="buff.mp3" preload="auto"></audio>
-        <audio id="loseSound" src="damage.mp3" preload="auto"></audio>
-        <audio id="bombSound" src="bomb.mp3" preload="auto"></audio>
+        <audio id="winSound" src="media/buff.mp3" preload="auto"></audio>
+        <audio id="loseSound" src="media/damage.mp3" preload="auto"></audio>
+        <audio id="bombSound" src="media/bomb.mp3" preload="auto"></audio>
 
     </main>
 
@@ -306,7 +306,7 @@
             const bombSound = document.getElementById("bombSound");
 
             isDoorLocked = true;
-            img.src = "open-door.png";
+            img.src = "media/open-door.png";
             img.alt = "Open Door";
 
             let randomNumber = 0.0;
@@ -397,7 +397,7 @@
             const number = document.getElementById(`number${doorNumber}`);
 
             // Reset door
-            img.src = "closed-door.png";
+            img.src = "media/closed-door.png";
             img.alt = "Closed Door";
             number.style.display = "none";
 
@@ -428,7 +428,7 @@
             document.querySelectorAll('.door').forEach(door => {
                 if (door.id !== "emergency") {
                     const img = door.querySelector('img');
-                    img.src = "closed-door.png";
+                    img.src = "media/closed-door.png";
                     img.alt = "Closed Door";
 
                     const number = door.querySelector('.behind-door');
