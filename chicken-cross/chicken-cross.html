@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chicken Cross</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=VT323&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+       body {
+            font-family: 'VT323', monospace;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .game-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+            background-image: url('grassy-road.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border: 2px solid #004080; 
+        }
+
+        h1 {
+            text-align: center;
+            color: #0c7025;
+            margin-top: 20px;
+            font-size: 48px;
+            text-shadow: 2px 2px 0px #002209; 
+        }
+
+        label {
+            font-size: 18px;
+            font-weight: bold;
+            color: #002209; 
+        }
+
+        input {
+            width: 25%;
+            padding: 8px;
+            font-size: 16px;
+            border: 2px solid #002209; 
+            border-radius: 4px;
+            background-color: #e6f7ff; 
+            color: #0c7025; 
+        }
+
+        button {
+            background-color: #0c7025; 
+            color: #ffffff; 
+            font-size: 24px;
+            padding: 7px 25px;
+            border: 2px solid #002209; 
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'VT323', monospace;
+            text-transform: uppercase;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #014d14; 
+            transform: scale(1.05); 
+        }
+
+        .road {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .chicken {
+            position: absolute;
+            max-height: 90px;
+            max-width: 90px;
+            top: 70px;
+            left: 0;
+            transition: left 0.5s;
+        }
+
+        .chicken img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; 
+        }
+
+        .info p {
+            margin: 10px 0;
+            font-size: 21px;
+            color: #fafafa; 
+            text-shadow: 1px 1px 0px #00330b; 
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        #boulder {
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            width: 125px;
+            height: 125px;
+            background-image: url('boulder.png');
+            background-size: cover;
+            display: none;
+            transform: translateX(-50%);
+            animation-timing-function: ease-in;
+            z-index: 2;
+        }
+
+        @keyframes fall {
+            from {
+                top: -100px;
+                opacity: 1;
+            }
+            to {
+                top: 60px;
+                opacity: 1;
+            }
+        }
+
+        #info {
+            margin-top: 20px;
+            font-size: 2.3rem;
+            }
+
+        #info:hover {
+            cursor: pointer;
+            }
+
+        .modal {
+            display: none; 
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center; 
+            align-items: center; 
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto; 
+            padding: 20px;
+            border: 1px solid #888;
+            width: 40%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: left;
+        }
+
+        .modal-content h2 {
+            font-size: 2rem;
+            margin: 25px;
+        }
+
+        .modal-content p {
+            font-size: 1.5rem;
+            margin: 25px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+</style>
+</head>
+<body>
+    <i id="info" class="fa-solid fa-circle-info"></i>
+    <div class="modal" id="infoModal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h2>Rules</h2>
+            <p>1. Place your bet (in <strong>Meat 🥩</strong>).</p>
+            <p>2. Move the chicken to increase your multiplier (up to 1.55x per move).</p>
+            <p>3. Each move has a <strong>1/3 chance of death</strong>.</p>
+            <p>4. Survive 10 moves to hit the <strong>jackpot (100.2x)</strong>!</p>
+            <p>5. Cash out anytime to secure your winnings (bet × current multiplier).</p>
+            <p>If the chicken dies, you lose your bet. Good luck! 🐔</p>
+        </div>
+    </div>
+    <div class="game-container">
+        <h1>CHICKEN CROSS</h1>
+        <input type="text" id="bet" name="bet">
+        <button type="submit" value="start" id="start" onclick="startGame()">Bet</button>
+        <div class="road">
+            <img src="boulder.png" href="Boulder" id =  "boulder">
+            <div class="chicken" id="chicken">
+                <img src="chicken.png" href="Chicken">
+            </div>
+        </div>
+        <div class="controls">
+            <button id="moveButton" onclick="moveChicken()">Move Chicken</button>
+            <button id="cashOutButton" onclick="cashOut()">Cash Out</button>
+        </div>
+        <div class="info">
+            <p id="status">Place a bet and move the chicken to start.</p>
+        </div>
+    </div>
+  
+    <audio id="chickenSound" src="buff.mp3" preload="auto"></audio>
+    <audio id="loseSound" src="crash.mp3" preload="auto"></audio>
+    <audio id="jackpotSound" src="jackpot.mp3" preload="auto"></audio>
+
+    <script>
+        const chicken = document.getElementById('chicken');
+        const boulder = document.getElementById('boulder');
+        const moveButton = document.getElementById('moveButton');
+        const cashOutButton = document.getElementById('cashOutButton');
+        const startButton = document.getElementById('start');
+        const betInput = document.getElementById('bet');
+        const road = document.querySelector('.road');
+        let statusText = document.getElementById('status');
+        const loseSound = document.getElementById("loseSound");
+        const chickenSound = document.getElementById("chickenSound");
+        const jackpotSound = document.getElementById("jackpotSound");
+    
+        let position = 0;
+        let score = 0;
+        let multiplier = 1;
+        let steps = 0;
+        let isGameOver = false;
+        let gameStarted = false;
+        let chanceOfDeath = 0.33;
+    
+        function startGame() {
+            const bet = parseInt(document.getElementById("bet").value, 10);
+            if (isNaN(bet) || bet <= 0) {
+                alert("Please enter a valid bet amount!");
+                return;
+            }
+            score = bet;
+            gameStarted = true;
+            betInput.disabled = true;
+            startButton.disabled = true;
+        }
+    
+        function moveChicken() {
+            if (!gameStarted || isGameOver) {
+                alert("Bet before trying to start the game!");
+                return;
+            }
+    
+            moveButton.disabled = true;
+    
+            if (Math.random() < chanceOfDeath) { 
+                loseSound.play();
+                const offset = (40 / road.clientWidth) * 100; 
+                fallAnimation(offset + position);
+                setTimeout(() => endGame(`The chicken got hit! Game over.`), 3000);
+                return;
+            }
+            
+            steps += 1;
+            const roadWidth = road.clientWidth;
+            const stepSize = (70 / roadWidth) * 100;
+            position += stepSize;
+
+            //bounce animacija
+            chicken.style.transition = 'left 0.5s, transform 0.3s';
+            chicken.style.left = position + '%';
+            chicken.style.transform = 'translateY(-20px)';
+            setTimeout(() => {
+                chicken.style.transform = 'translateY(0px)';
+            }, 300);
+
+
+            multiplier += Math.random() * 1.55; 
+            statusText.textContent = `Chicken moved safely! Potential reward: ${multiplier.toFixed(1)}x`;
+
+            if (steps != 10) {
+                chickenSound.play();
+                setTimeout(() => {
+                    moveButton.disabled = false;
+                }, 1000);
+            } else {
+                multiplier = 100.2;
+                const totalScore = score * multiplier;
+                jackpotSound.play();
+                setTimeout(() => endGame(`Chicken crossed the road safely! Jackpot: ${totalScore.toFixed(1)}`), 3000);
+            }
+        }
+    
+        function cashOut() {
+            if (isGameOver) return;
+            const totalScore = score * multiplier;
+            statusText.textContent = `You cashed out! Your final score: ${totalScore.toFixed(2)}`;
+            isGameOver = true;
+            resetGame();
+        }
+    
+        function endGame(message) {
+            isGameOver = true;
+            statusText.textContent = message;
+            resetGame();
+        }
+    
+        function resetGame() {
+            position = 0;
+            score = 0;
+            multiplier = 1;
+            steps = 0;
+            isGameOver = false;
+            gameStarted = false;
+            chanceOfDeath = 0.33;
+    
+            const chickenImage = chicken.querySelector('img');
+            chicken.style.transition = 'transform 0.3s ease-out';
+            chicken.style.transform = 'scale(1)';
+            chicken.style.left = position + '%';
+            boulder.style.display = "none";
+    
+            betInput.disabled = false;
+            startButton.disabled = false;
+            moveButton.disabled = false;
+            cashOut.disabled = false;
+    
+            statusText.textContent = "Place a bet and move the chicken to start.";
+        }
+
+        function fallAnimation(position) {
+            const boulder = document.getElementById('boulder');
+            boulder.style.left = position + '%';
+            boulder.style.display = 'block';
+            boulder.style.animation = 'fall 1s forwards';
+            setTimeout(() => {
+                const chickenImage = chicken.querySelector('img');
+                chicken.style.transition = 'transform 0.3s ease-out';
+                chicken.style.transform = 'scale(0.3)';
+            }, 550);
+        }
+
+        const infoIcon = document.getElementById('info');
+            const infoModal = document.getElementById('infoModal');
+            const closeModal = document.getElementById('closeModal');
+        
+            infoIcon.addEventListener('click', () => {
+                infoModal.style.display = 'block';
+            });
+        
+            closeModal.addEventListener('click', () => {
+                infoModal.style.display = 'none';
+            });
+    
+            window.addEventListener('click', (event) => {
+                if (event.target === infoModal) {
+                    infoModal.style.display = 'none';
+                }
+            });
+    </script>
+    
+</body>
+</html>
