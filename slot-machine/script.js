@@ -61,7 +61,7 @@ function rollAll() {
 
 rollButton.addEventListener("click", () => {
     betAmount = parseFloat(document.getElementById('betSize').value);
-    if (betAmount <= 0) {
+    if (isNaN(betAmount) || betAmount <= 0) {
         msg.textContent = 'Please enter a bet amount';
         // pogledam če ma dost na računu
     } else {
