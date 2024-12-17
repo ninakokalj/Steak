@@ -17,7 +17,7 @@
 
         .container {
             display: flex;
-            justify-content: flex-start;
+            justify-content: center;
             align-items: flex-start;
             width: 80%;
         }
@@ -70,7 +70,7 @@
         .cell {
             width: 80px;
             height: 80px;
-            background-color: #4CAF50;
+            background-color: #ccc;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -80,7 +80,7 @@
         }
 
         .cell.revealed {
-            background-color: #ddd;
+            background-color: #eee;
             cursor: default;
         }
 
@@ -121,20 +121,81 @@
             background-color: white;
             color: black;
         }
+        .bet-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+            width: 200px;
+        }
+
+        .bet-container input {
+            padding-right: 20px; /* prostor za valuto simbol */
+            width: 100%;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .bet-container .currency-symbol {
+            position: absolute;
+            right: 10px;
+            font-size: 16px;
+            color: #000;
+        }
+
+        @keyframes reveal-emerald {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes reveal-mine {
+            0% {
+                transform: rotate(0deg) scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: rotate(360deg) scale(1.5);
+                opacity: 1;
+            }
+            100% {
+                transform: rotate(0deg) scale(1);
+            }
+        }
+
+        .cell.revealed .emerald {
+            animation: reveal-emerald 0.5s ease-out;
+        }
+
+        .cell.revealed .mine {
+            animation: reveal-mine 0.5s ease-out;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="controls">
+            <label for="betSize">Bet Size:</label>
+            <div class="bet-container">
+                <input type="number" id="betSize" value="1.00" min="0.01" step="0.01">
+                <span class="currency-symbol">$</span>
+            </div>
+
             <label for="mines">Number of Mines:</label>
             <input type="number" id="mines" value="3" min="1" max="24">
             
-            <!-- POPRAV FORMAT DA BOJO AVTOMATSKO CENTI $1.00 -->
-            <label for="betSize">Bet Size:</label>
-            <input type="number" id="betSize" value="0" min="0.01">
-            
             <label for="profitInput">Current Profit:</label>
-            <input type="text" id="profitInput" value="$0.00" readonly>
+            <div class="bet-container">
+                <input type="text" id="profitInput" value="0.00" readonly>
+                <span class="currency-symbol">$</span>
+            </div>
             
             <button id="start">Start Game</button>
             <button id="cashout" class="cashout-button" disabled>Cashout</button>
@@ -160,6 +221,18 @@
     let revealedCells = 0;
     let betSize = 0;
     let currentProfit = 0;
+
+    const sounds = {
+        start: "start.mp3",
+        cashout: "cashout.mp3",
+        emerald: "emerald.mp3",
+        mine: "mine.mp3"
+    };
+
+    function playSound(sound) {
+        const audio = new Audio(sound);
+        audio.play();
+    }
 
     // https://stakecommunity.com/topic/77099-mines-multipliers/
     const multipliers = [
@@ -189,6 +262,18 @@
         [24.75]
     ];
 
+    // init grid
+
+    for (let i = 0; i < SIZE * SIZE; i++) {
+        const cell = document.createElement("div");
+        cell.classList.add("cell");
+        cell.classList.add("revealed"); // not clickable
+        cell.style.backgroundColor = "#ccc";
+        cell.dataset.index = i;
+        gridElement.appendChild(cell);
+    }
+    
+
     function startGame() {
         const numMines = parseInt(minesInput.value);
         betSize = parseFloat(betSizeInput.value);
@@ -201,6 +286,8 @@
             alert("PEnter a valid bet size greater than $0.00.");
             return;
         }
+
+        playSound(sounds.start);
 
         // disable inputs while game is active
         minesInput.classList.add("disabled");
@@ -215,7 +302,7 @@
         currentProfit = 0;
         cashoutButton.disabled = true;
         cashoutButton.style.display = 'inline-block';
-        profitInput.style.display = 'inline-block'; // Show the profit field
+        profitInput.style.display = 'inline-block'; // show  profit field
         profitInput.value = "$0.00";
 
         // generate mine positions
@@ -237,16 +324,24 @@
     }
 
     function revealCell(cell, index) {
-        // DODEJ SFX ONREVEAL
         if (cell.classList.contains("revealed")) return;
 
         cell.classList.add("revealed");
+        const content = document.createElement("div");
+        
         if (minePositions.includes(index)) {
+            playSound(sounds.mine);
             cell.classList.add("mine");
-            cell.textContent = "💣";
+            content.textContent = "💣";
+            content.classList.add("mine");
+            cell.appendChild(content);
             endGame(false);
         } else {
-            cell.textContent = "💎";
+            playSound(sounds.emerald);
+            cell.classList.add("emerald");
+            content.textContent = "💎";
+            content.classList.add("emerald");
+            cell.appendChild(content);
             revealedCells++;
             updateProfit();
             if (revealedCells === SIZE * SIZE - minePositions.length) {
@@ -288,13 +383,22 @@
     }
 
     function cashOut() {
-        alert(`You cashed out with a profit of $${currentProfit.toFixed(2)}!`);
+        playSound(sounds.cashout); // Play cashout sound
+        setTimeout(() => {
+            alert(`You cashed out with a profit of $${currentProfit.toFixed(2)}!`);
+        }, 200);
         cashoutButton.disabled = true;
         endGame(true);
     }
 
     startButton.addEventListener("click", startGame);
     cashoutButton.addEventListener("click", cashOut);
+
+    betSizeInput.addEventListener("blur", () => {
+    let value = parseFloat(betSizeInput.value);
+    if (!isNaN(value)) betSizeInput.value = value.toFixed(2);
+    else betSizeInput.value = "0.00";
+    });
 </script>
 </body>
 </html>
