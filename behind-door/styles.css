@@ -9,7 +9,7 @@ body {
 
 header {
     width: 100%;
-    height: 100px;
+    height: 10%;
     display: flex; 
     justify-content: flex-end; 
     align-items: center;
@@ -24,8 +24,8 @@ header {
     margin-right: 5%;
   }
   #user {
-    width: 3.5rem; 
-    height: 3.5rem;
+    width: 3rem; 
+    height: 3rem;
   }
   .userDiv p {
     font-size: 1.5rem; 
@@ -121,7 +121,7 @@ input, button {
 }
 
 .door img {
-    height: 17rem;
+    height: 20rem;
     transition: transform 0.2s ease-in-out, box-shadow 0.2s;
 }
 
@@ -309,5 +309,21 @@ input, button {
     100% {
         transform: scale(1);
         opacity: 1;
+    }
+}
+
+html {
+    font-size: 16px; 
+}
+
+@media (min-width: 3000px) {
+    html {
+        font-size: 34px; 
+    }
+}
+
+@media (min-width: 5000px) {
+    html {
+        font-size: 50px; 
     }
 }
