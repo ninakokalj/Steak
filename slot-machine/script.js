@@ -1,3 +1,6 @@
+document.querySelector('#username').textContent = "ninakok";
+document.querySelector('#usermeat').textContent = "20.000";
+
 const msg = document.querySelector('.message');
 const currentProfitInput = document.querySelector('#profitInput');
 let betAmount;
