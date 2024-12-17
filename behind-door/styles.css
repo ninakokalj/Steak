@@ -35,8 +35,7 @@ label {
 #container {
     margin: 20px auto;
     padding: 20px;
-    width: 90%;
-    max-width: 1000px;
+    width: 70%;
     border: 2px solid #004080; 
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
@@ -66,7 +65,7 @@ label {
 
 .bet-section input {
     flex-grow: 1; 
-    max-width: 300px; 
+    max-width: 40%; 
 }
 
 .bet-section button {
@@ -92,8 +91,7 @@ label {
     display: flex;
     justify-content: space-around;
     margin: 30px auto;
-    width: 90%;
-    max-width: 800px;
+    width: 80%;
     flex-wrap: wrap;
 }
 
@@ -104,7 +102,7 @@ label {
 }
 
 .door img {
-    height: 250px;
+    height: 90%;
     transition: transform 0.2s ease-in-out, box-shadow 0.2s;
 }
 
