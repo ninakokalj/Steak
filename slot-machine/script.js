@@ -75,11 +75,8 @@ function checkWins(indexes) {
     checkForFreeRoll(indexes);
     if (indexes.every(element => element === indexes[0])) {
         checkWin(indexes[0]);
-
-    } else if (indexes.includes(6)) {
-        if (indexes[0] === indexes[1] || indexes[0] === indexes[2] || indexes[1] === indexes[2]) {
-            checkWin(indexes.find(element => element !== 6));
-        }
+    } else if (indexes.includes(6) && (indexes[0] === indexes[1] || indexes[0] === indexes[2] || indexes[1] === indexes[2])) {
+        checkWin(indexes.find(element => element !== 6));
     } else {
         msg.textContent = 'NO WIN';
         if (deduct) {
