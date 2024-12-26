@@ -205,9 +205,9 @@ input {
 /* ROLL BUTTON */
 button.roll {
   margin-top: 80%;
-  padding: 1rem 2.5rem;
+  padding: 1rem 1.5rem;
   font-size: 2rem;
-  min-width: 30%;
+  width: 100%;
   font-family: "Atma", system-ui;
   font-weight: 600;
   background-color: #AB4459;
