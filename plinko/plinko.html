@@ -5,81 +5,237 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plinko</title>
     <style>
-        canvas {
-            display: block;
-            margin: 20px auto;
-            background: #f4f4f4;
-            border: 1px solid #ddd;
-        }
         body {
-            text-align: center;
             font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #23043f;
+            color: white;
         }
-        #scoreboard {
-            margin: 20px;
+
+        .game-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+            max-width: 1200px;
+            gap: 20px;
+            margin: 120px auto 20px;
         }
-        #controls {
-            margin: 10px 0;
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 300px;
+            padding: 20px;
         }
-        button {
-            padding: 10px 20px;
+
+        .log-container {
+            flex-grow: 1;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-y: auto;
+            max-height: 500px;
+            min-width: 350px;
+            max-width: 100%;
+            box-sizing: border-box;
+            overflow: auto;
+        }
+
+        .log-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            overflow: auto;
+        }
+
+        .log-table th, .log-table td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            font-size: 14px;
+        }
+
+        .log-table thead th {
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+            text-align: center;
+            width: 120px;
+        }
+
+        label {
+            margin-bottom: 10px;
             font-size: 16px;
+            font-weight: bold;
+        }
+
+        input, select {
+            margin-bottom: 20px;
+            padding: 10px;
+            width: 100%;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            background-color: #008CBA;
+            color: white;
             cursor: pointer;
         }
+
+        button:disabled {
+            background-color: gray;
+            cursor: not-allowed;
+        }
+        header {
+            width: 100%;
+            height: 100px;
+            display: flex; 
+            justify-content: flex-end; 
+            align-items: center;
+            background-color: #1B1833;
+            position: fixed; 
+            top: 0;
+            margin-bottom: 100px;
+            z-index: 10;
+        }
+
+        .userDiv {
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            margin-right: 5%;
+        }
+        #user {
+            width: 3.5rem; 
+            height: 3.5rem;
+        }
+        .userDiv p {
+            font-size: 1.5rem; 
+            color: #e8eaed;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        #username {
+            margin: 0; 
+            margin-right: 10%;
+        }
+        
     </style>
 </head>
 <body>
-    <div id="scoreboard">
-        <h1>Plinko Gambling Game</h1>
-        <p><strong>Balance:</strong> <span id="score">10</span></p>
+    <header>
+        <div class="userDiv">
+            <svg id="user" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                <path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z"/>
+            </svg>
+            <p id="username"></p>
+            <p>&#129385;</p>
+            <p id="usermeat"></p>
+        </div>
+    </header>
+    <div class="game-container">
+        <div class="container">
+            <h1>Plinko</h1>
+            <label for="betSize">Bet Size:</label>
+            <input type="number" id="betSize" value="1" min="1" step="1">
+            
+            <label for="risk">Risk:</label>
+            <select id="risk">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
+
+            <button id="randomBallButton">Bet</button>
+        </div>
+        <canvas id="plinkoCanvas" width="800" height="600"></canvas>
+        <div class="log-container">
+            <table class="log-table">
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Bet</th>
+                        <th>Payout</th>
+                        <th>Profit</th>
+                    </tr>
+                </thead>
+                <tbody id="logBody">
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div id="controls">
-        <button id="randomBallButton">Spawn Random Ball</button>
-    </div>
-    <canvas id="plinkoCanvas"></canvas>
     <script>
+        let balance = 20;
+        let currentBet = 0;
+        document.querySelector('#username').textContent = "jan";
+        document.getElementById('usermeat').textContent = balance.toFixed(2);
+
         const canvas = document.getElementById('plinkoCanvas');
         const ctx = canvas.getContext('2d');
         const randomBallButton = document.getElementById('randomBallButton');
-
-        canvas.width = 800;
-        canvas.height = 600;
+        const riskSelect = document.getElementById('risk');
+        const betSizeInput = document.getElementById('betSize');
+        const logBody = document.getElementById('logBody');
 
         const balls = [];
         const ballRadius = 8;
-
-        const gravity = 0.3;
+        const gravity = 0.1;
 
         const pegs = [];
         const pegRadius = 7;
         const rows = 12;
         const cols = 18;
-        const pegSpacingX = canvas.width / (cols + 1);
+        const pegSpacingX = canvas.width / cols;
         const pegSpacingY = 40;
 
-        // Multiplier zones
-        const multipliers = [0.5, 1, 2, 5, 10, 5, 2, 1, 0.5];
+        const risks = {
+            low: [0.8, 0.9, 1.0, 1.1, 2, 1.1, 1.0, 0.9, 0.8],
+            medium: [0.4, 0.6, 0.8, 1.0, 3, 1.0, 0.8, 0.6, 0.4],
+            high: [0.0, 0.2, 0.4, 0.6, 10, 0.6, 0.4, 0.2, 0.0]
+        };
+
+        let multipliers = risks.low;
         const multiplierZones = [];
         const zoneHeight = 40;
-        const zoneWidth = canvas.width / multipliers.length;
+        let zoneWidth;
 
-        for (let row = 0; row < rows; row++) {
-            for (let col = 0; col < cols; col++) {
-                const offsetX = row % 2 === 0 ? pegSpacingX / 2 : 0; // offset every other row
-                pegs.push({
-                    x: col * pegSpacingX + offsetX + pegSpacingX / 2,
-                    y: row * pegSpacingY + 80,
+        function createMultiplierZones() {
+            multiplierZones.length = 0;
+            zoneWidth = canvas.width / multipliers.length;
+            for (let i = 0; i < multipliers.length; i++) {
+                multiplierZones.push({
+                    x: i * zoneWidth,
+                    y: canvas.height - zoneHeight,
+                    width: zoneWidth,
+                    multiplier: multipliers[i],
                 });
             }
         }
 
-        for (let i = 0; i < multipliers.length; i++) {
-            multiplierZones.push({
-                x: i * zoneWidth,
-                y: canvas.height - zoneHeight,
-                width: zoneWidth,
-                multiplier: multipliers[i],
-            });
+        for (let row = 0; row < rows; row++) {
+            for (let col = 0; col < cols; col++) {
+                const offsetX = row % 2 === 0 ? pegSpacingX / 2 : 0;
+                pegs.push({
+                    x: col * pegSpacingX + offsetX + pegSpacingX / 4,
+                    y: row * pegSpacingY + 80,
+                    originalX: col * pegSpacingX + offsetX + pegSpacingX / 4,
+                    originalY: row * pegSpacingY + 80,
+                    color: '#3498db',
+                    isShaking: false,
+                    shakeTime: 0,
+                });
+            }
         }
 
         function drawBall(ball) {
@@ -92,9 +248,24 @@
 
         function drawPegs() {
             pegs.forEach(peg => {
+                if (peg.isShaking) {
+                    const shakeOffset = Math.random() * 2 - 1;
+                    peg.x = peg.originalX + shakeOffset;
+                    peg.y = peg.originalY + shakeOffset;
+
+                    ctx.fillStyle = '#5dade2';
+                    peg.shakeTime -= 1;
+                    if (peg.shakeTime <= 0) {
+                        peg.isShaking = false;
+                        peg.x = peg.originalX;
+                        peg.y = peg.originalY;
+                        peg.color = '#3498db';
+                    }
+                }
+
                 ctx.beginPath();
                 ctx.arc(peg.x, peg.y, pegRadius, 0, Math.PI * 2);
-                ctx.fillStyle = '#3498db';
+                ctx.fillStyle = peg.color;
                 ctx.fill();
                 ctx.closePath();
             });
@@ -102,9 +273,9 @@
 
         function drawMultiplierZones() {
             multiplierZones.forEach(zone => {
-                ctx.fillStyle = '#ecf0f1';
+                ctx.fillStyle = '#ffeb3b';
                 ctx.fillRect(zone.x, zone.y, zone.width, zoneHeight);
-                ctx.strokeStyle = '#7f8c8d';
+                ctx.strokeStyle = '#23043f';
                 ctx.strokeRect(zone.x, zone.y, zone.width, zoneHeight);
 
                 ctx.fillStyle = '#2c3e50';
@@ -130,17 +301,45 @@
         }
 
         function spawnRandomBall() {
-            if (totalScore >= 1) {
+            const betSize = parseFloat(betSizeInput.value);
+            if (betSize <= 0 || isNaN(betSize)) {
+                alert("Please enter a valid bet size.");
+                return;
+            }
+
+            if (balance >= betSize) {
                 const randomX = Math.random() * canvas.width;
                 addBall(randomX);
 
-                totalScore -= 1;
-                document.getElementById('score').textContent = totalScore.toFixed(2);
+                balance -= betSize;
+                document.getElementById('usermeat').textContent = balance.toFixed(2);
+                currentBet = betSize;
             } else {
                 alert("Balance not big enough to place a bet!");
             }
         }
 
+        function addLogEntry(bet, payout, profit) {
+            const currentTime = new Date().toLocaleTimeString('en-GB', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+            });
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${currentTime}</td>
+                <td>${bet.toFixed(2)}</td>
+                <td>${payout.toFixed(1)}x</td>
+                <td>${profit >= 0 ? '+' : ''}${profit.toFixed(2)}</td>
+            `;
+
+            logBody.prepend(row);
+
+            if (logBody.rows.length > 14) {
+                logBody.deleteRow(logBody.rows.length - 1);
+            }
+        }
         function checkCollisions(ball) {
             pegs.forEach(peg => {
                 const dx = ball.x - peg.x;
@@ -148,10 +347,13 @@
                 const distance = Math.sqrt(dx * dx + dy * dy);
 
                 if (distance < ballRadius + pegRadius) {
-                    // collision
                     const angle = Math.atan2(dy, dx);
-                    ball.vx += Math.cos(angle) * 2;
-                    ball.vy += Math.sin(angle) * 2;
+                    const collisionImpact = 1.5;
+                    ball.vx += Math.cos(angle) * collisionImpact;
+                    ball.vy += Math.sin(angle) * collisionImpact;
+
+                    peg.isShaking = true;
+                    peg.shakeTime = 15;
                 }
             });
         }
@@ -160,22 +362,17 @@
             if (ball.y + ballRadius >= canvas.height - zoneHeight && !ball.scored) {
                 for (const zone of multiplierZones) {
                     if (ball.x >= zone.x && ball.x <= zone.x + zone.width) {
-                        updateScore(zone.multiplier);
+                        const profit = currentBet * zone.multiplier - currentBet;
+                        balance += currentBet * zone.multiplier;
+                        document.getElementById('usermeat').textContent = balance.toFixed(2);
+                        addLogEntry(currentBet, zone.multiplier, profit);
                         ball.scored = true;
-                        ball.vy = 0; // stop ball vertical movement
-                        ball.vx = 0; // stop ball horizontal movement
-                        ball.x = Math.max(zone.x + ballRadius, Math.min(zone.x + zone.width - ballRadius, ball.x)); // constrain ball to zone horizontally
-                        ball.y = canvas.height - zoneHeight - ballRadius; // ball stays within the multiplier zone
+                        ball.vy = 0;
+                        ball.vx = 0;
                         break;
                     }
                 }
             }
-        }
-
-        let totalScore = 10; // starting balance is 10
-        function updateScore(multiplier) {
-            totalScore += multiplier;
-            document.getElementById('score').textContent = totalScore.toFixed(2);
         }
 
         function update() {
@@ -186,6 +383,9 @@
 
             balls.forEach(ball => {
                 ball.vy += gravity;
+
+                ball.vx *= 0.98; 
+                ball.vy *= 0.98; 
 
                 ball.x += ball.vx;
                 ball.y += ball.vy;
@@ -211,6 +411,23 @@
         update();
 
         randomBallButton.addEventListener('click', spawnRandomBall);
+
+        riskSelect.addEventListener('change', () => {
+            const risk = riskSelect.value;
+            multipliers = risks[risk];
+            createMultiplierZones();
+        });
+
+        createMultiplierZones();
+
+        function adjustLogContainer() {
+            const logContainer = document.querySelector('.log-container');
+            const maxAvailableHeight = window.innerHeight * 0.7;
+            logContainer.style.maxHeight = `${maxAvailableHeight}px`;
+        }
+
+        window.addEventListener('resize', adjustLogContainer);
+        adjustLogContainer();
     </script>
 </body>
 </html>
