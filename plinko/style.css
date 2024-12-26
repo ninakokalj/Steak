@@ -1,0 +1,125 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #23043f;
+    color: white;
+}
+
+.game-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 1200px;
+    gap: 20px;
+    margin: 120px auto 20px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 300px;
+    padding: 20px;
+}
+
+.log-container {
+    flex-grow: 1;
+    padding: 20px;
+    border-radius: 10px;
+    overflow-y: auto;
+    max-height: 500px;
+    min-width: 350px;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: auto;
+}
+
+.log-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    overflow: auto;
+}
+
+.log-table th, .log-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+}
+
+.log-table thead th {
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    text-align: center;
+    width: 120px;
+}
+
+label {
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+input, select {
+    margin-bottom: 20px;
+    padding: 10px;
+    width: 100%;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 10px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    background-color: #008CBA;
+    color: white;
+    cursor: pointer;
+}
+
+button:disabled {
+    background-color: gray;
+    cursor: not-allowed;
+}
+header {
+    width: 100%;
+    height: 100px;
+    display: flex; 
+    justify-content: flex-end; 
+    align-items: center;
+    background-color: #1B1833;
+    position: fixed; 
+    top: 0;
+    margin-bottom: 100px;
+    z-index: 10;
+}
+
+.userDiv {
+    display: flex; 
+    align-items: center; 
+    gap: 8px; 
+    margin-right: 5%;
+}
+#user {
+    width: 3.5rem; 
+    height: 3.5rem;
+}
+.userDiv p {
+    font-size: 1.5rem; 
+    color: #e8eaed;
+    font-family: Arial, Helvetica, sans-serif;
+}
+#username {
+    margin: 0; 
+    margin-right: 10%;
+}
