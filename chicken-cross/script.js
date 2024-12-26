@@ -38,27 +38,27 @@ function moveChicken() {
 
     if (Math.random() < chanceOfDeath) { 
         loseSound.play();
-        const offset = (40 / road.clientWidth) * 100; 
+        const offset = 2.6; 
         fallAnimation(offset + position);
         setTimeout(() => endGame(bet * (-1)), 1000);
         return;
     }
     
     steps += 1;
-    const roadWidth = road.clientWidth;
-    const stepSize = (70 / roadWidth) * 100;
-    position += stepSize;
-
-    //bounce animacija
-    chicken.style.transition = 'left 0.5s, transform 0.3s';
-    chicken.style.left = position + '%';
-    chicken.style.transform = 'translateY(-20px)';
+    const rootFontSize = 16; 
+    const stepSizeRem = 70 / rootFontSize; 
+    position += stepSizeRem; 
+    
+    // bounce
+    chicken.style.transition = 'left 0.5s ease, transform 0.3s ease';
+    chicken.style.left = position + 'rem'; 
+    chicken.style.transform = 'translateY(-1rem)'; 
     setTimeout(() => {
-        chicken.style.transform = 'translateY(0px)';
+        chicken.style.transform = 'translateY(0)'; 
     }, 300);
-
+    
     multiplier += Math.random() * 1.55; 
-    statusText.textContent = `Chicken moved safely! Potential reward: ${multiplier.toFixed(1)}x`;
+    statusText.textContent = `Chicken moved safely! Potential reward: 🥩${(score * multiplier).toFixed(1)}.`;
 
     if (steps != 10) {
         chickenSound.play();
@@ -111,7 +111,7 @@ function resetGame() {
 
 function fallAnimation(position) {
     const boulder = document.getElementById('boulder');
-    boulder.style.left = position + '%';
+    boulder.style.left = position + 'rem';
     boulder.style.display = 'block';
     boulder.style.animation = 'fall 1s forwards';
     setTimeout(() => {

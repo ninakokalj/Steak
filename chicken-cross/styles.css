@@ -9,78 +9,78 @@ body {
 header {
     background-color: #1B1833;
     width: 100%;
-    height: 100px;
+    height: 6.25rem;
 }
 
 .game-container {
-    max-width: 800px;
-    margin: 50px auto;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+    max-width: 50rem;
+    margin: 3.125rem auto;
+    padding: 1.25rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.6);
     background-image: url('media/grassy-road.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    border: 2px solid #004080; 
+    border: 0.125rem solid #004080;
 }
 
 h1 {
     text-align: center;
     color: #0c7025;
-    margin-top: 20px;
-    font-size: 48px;
-    text-shadow: 2px 2px 0px #002209; 
+    margin-top: 1.25rem;
+    font-size: 3rem;
+    text-shadow: 0.125rem 0.125rem 0 #002209;
 }
 
 label {
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: bold;
-    color: #002209; 
+    color: #002209;
 }
 
 input {
     width: 25%;
-    padding: 8px;
-    font-size: 16px;
-    border: 2px solid #002209; 
-    border-radius: 4px;
-    background-color: #e6f7ff; 
-    color: #0c7025; 
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 0.125rem solid #002209;
+    border-radius: 0.25rem;
+    background-color: #e6f7ff;
+    color: #0c7025;
 }
 
 button {
-    background-color: #A84459; 
-    color: #ffffff; 
-    font-size: 24px;
-    padding: 7px 25px;
-    border: 2px solid #7c2538; 
-    border-radius: 4px;
+    background-color: #A84459;
+    color: #ffffff;
+    font-size: 1.5rem;
+    padding: 0.4375rem 1.5625rem;
+    border: 0.125rem solid #7c2538;
+    border-radius: 0.25rem;
     cursor: pointer;
     font-family: 'VT323', monospace;
     text-transform: uppercase;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.4);
     transition: transform 0.3s, background-color 0.3s;
 }
 
 button:hover {
-    background-color: #9b3249; 
-    transform: scale(1.05); 
+    background-color: #9b3249;
+    transform: scale(1.05);
 }
 
 .road {
     position: relative;
     width: 100%;
-    height: 250px;
-    margin: 20px 0;
+    height: 15.625rem;
+    margin: 1.25rem 0;
     overflow: hidden;
 }
 
 .chicken {
     position: absolute;
-    max-height: 90px;
-    max-width: 90px;
-    top: 70px;
+    max-height: 5.625rem;
+    max-width: 5.625rem;
+    top: 4.375rem;
     left: 0;
     transition: left 0.5s;
 }
@@ -88,29 +88,29 @@ button:hover {
 .chicken img {
     width: 100%;
     height: 100%;
-    object-fit: contain; 
+    object-fit: contain;
 }
 
 .info p {
-    margin: 10px 0;
-    font-size: 21px;
-    color: #fafafa; 
-    text-shadow: 1px 1px 0px #00330b; 
+    margin: 0.625rem 0;
+    font-size: 1.3125rem;
+    color: #fafafa;
+    text-shadow: 0.0625rem 0.0625rem 0 #00330b;
 }
 
 .controls {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
+    gap: 0.625rem;
+    margin-top: 1.25rem;
 }
 
 #boulder {
     position: absolute;
-    top: -100px;
+    top: -6.25rem;
     left: 50%;
-    width: 125px;
-    height: 125px;
+    width: 7.8125rem;
+    height: 7.8125rem;
     background-image: url('boulder.png');
     background-size: cover;
     display: none;
@@ -121,27 +121,27 @@ button:hover {
 
 @keyframes fall {
     from {
-        top: -100px;
+        top: -6.25rem;
         opacity: 1;
     }
     to {
-        top: 60px;
+        top: 3.75rem;
         opacity: 1;
     }
 }
 
 #info {
-    margin-top: 20px;
+    margin-top: 1.25rem;
     font-size: 2.3rem;
     color: #1B1833;
-    }
+}
 
 #info:hover {
     cursor: pointer;
-    }
+}
 
 .modal {
-    display: none; 
+    display: none;
     position: fixed;
     z-index: 1000;
     left: 0;
@@ -149,38 +149,39 @@ button:hover {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    justify-content: center; 
-    align-items: center; 
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-content {
     background-color: white;
-    margin: 10% auto; 
-    padding: 20px;
-    border: 1px solid #888;
-    width: 40%;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 0.625rem auto;
+    padding: 1.25rem;
+    border: 0.0625rem solid #888;
+    width: 25rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
     text-align: left;
 }
 
 .modal-content h2 {
     font-size: 2rem;
-    margin: 25px;
+    margin: 1.5625rem;
 }
 
 .modal-content p {
     font-size: 1.5rem;
-    margin: 25px;
+    margin: 1.5625rem;
 }
 
 .close {
     color: #aaa;
     float: right;
-    font-size: 28px;
+    font-size: 1.75rem;
     font-weight: bold;
     cursor: pointer;
 }
+
 .close:hover,
 .close:focus {
     color: black;
@@ -205,22 +206,22 @@ button:hover {
 .resultModal-content {
     background: #2b2b2b;
     color: #6d6a8a;
-    padding: 40px;
-    width: 40%;
-    max-width: 400px;
+    padding: 2.5rem;
+    width: 25rem;
+    max-width: 25rem;
     text-align: center;
-    border: 3px solid #4d4d4d;
-    border-radius: 15px;
+    border: 0.1875rem solid #4d4d4d;
+    border-radius: 0.9375rem;
     position: relative;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9);
+    box-shadow: 0 0.9375rem 2.5rem rgba(0, 0, 0, 0.9);
     animation: popIn 0.5s ease-out;
 }
 
 .resultModal-content .close {
     position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 2.5rem;
+    top: 0.625rem;
+    right: 0.9375rem;
+    font-size: 1.5625rem;
     color: #6d6a8a;
     font-weight: bold;
     cursor: pointer;
@@ -232,16 +233,16 @@ button:hover {
 }
 
 .resultModal-content h2 {
-    font-size: 3.5rem;
-    margin-bottom: 15px;
-    text-shadow: 2px 2px 5px #000000;
+    font-size: 2.1875rem;
+    margin-bottom: 0.9375rem;
+    text-shadow: 0.125rem 0.125rem 0.3125rem #000000;
 }
 
 .resultModal-content p {
-    font-size: 1.6rem;
-    margin: 20px 0;
+    font-size: 1.5625rem;
+    margin: 1.25rem 0;
     color: #c2c2c2;
-    text-shadow: 1px 1px 3px #000000;
+    text-shadow: 0.0625rem 0.0625rem 0.1875rem #000000;
 }
 
 @keyframes fadeIn {
@@ -268,4 +269,26 @@ button:hover {
     cursor: not-allowed !important;
     opacity: 0.6 !important;
     transition: none !important;
+}
+
+html {
+    font-size: 16px;
+}
+
+@media (min-width: 3000px) {
+    html {
+        font-size: 30px;
+    }
+}
+
+@media (min-width: 5000px) {
+    html {
+        font-size: 40px;
+    }
+}
+
+@media (max-width: 700px) {
+    html {
+        font-size: 10px; 
+    }
 }

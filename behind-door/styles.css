@@ -124,7 +124,7 @@ input, button {
 }
 
 .door img {
-    height: 20rem;
+    height: 17rem;
     transition: transform 0.2s ease-in-out, box-shadow 0.2s;
 }
 
@@ -331,3 +331,6 @@ html {
         font-size: 40px; 
     }
 }
+
+
+
