@@ -1,7 +1,11 @@
 let balance = 20;
+let startingBalance = balance;
 let currentBet = 0;
 document.querySelector('#username').textContent = "jan";
 document.getElementById('usermeat').textContent = balance.toFixed(2);
+
+let totalWin = 0;
+let totalLoss = 0;
 
 const gridElement = document.getElementById("grid");
 const minesInput = document.getElementById("mines");
@@ -9,6 +13,13 @@ const betSizeInput = document.getElementById("betSize");
 const startButton = document.getElementById("start");
 const cashoutButton = document.getElementById("cashout");
 const profitInput = document.getElementById("profitInput");
+const exitButton = document.getElementById("exit");
+
+exitButton.addEventListener("click", () => {
+    const sessionProfit = balance - startingBalance;
+    console.log(`Session Profit/Loss: $${sessionProfit.toFixed(2)}`);
+    //window.location.href = "mainmenu.html"; // Redirect to mainmenu.html
+});
 
 const SIZE = 5; // 5x5 grid
 let minePositions = [];
@@ -137,6 +148,9 @@ function revealCell(cell, index) {
         content.textContent = "💣";
         content.classList.add("mine");
         cell.appendChild(content);
+        totalLoss += betSize;
+        console.log(`Total Wins: $${totalWin.toFixed(2)}`);
+        console.log(`Total Losses: $${totalLoss.toFixed(2)}`);
         endGame(false);
     } else {
         playSound(sounds.emerald);
@@ -176,6 +190,10 @@ function endGame(won) {
         }
     });
     cashoutButton.disabled = true;
+
+    if (won) totalWin += currentProfit - betSize;
+    console.log(`Total Wins: $${totalWin.toFixed(2)}`);
+    console.log(`Total Losses: $${totalLoss.toFixed(2)}`);
 
     // enable inputs after game ends
     minesInput.classList.remove("disabled");
