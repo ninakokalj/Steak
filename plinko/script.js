@@ -1,7 +1,11 @@
 let balance = 20;
+let startingBalance = balance;
 let currentBet = 0;
 document.querySelector('#username').textContent = "jan";
 document.getElementById('usermeat').textContent = balance.toFixed(2);
+
+let totalWin = 0;
+let totalLoss = 0;
 
 const canvas = document.getElementById('plinkoCanvas');
 const ctx = canvas.getContext('2d');
@@ -9,6 +13,13 @@ const randomBallButton = document.getElementById('randomBallButton');
 const riskSelect = document.getElementById('risk');
 const betSizeInput = document.getElementById('betSize');
 const logBody = document.getElementById('logBody');
+const exitButton = document.getElementById("exit");
+
+exitButton.addEventListener("click", () => {
+    const sessionProfit = balance - startingBalance;
+    console.log(`Session Profit/Loss: $${sessionProfit.toFixed(2)}`);
+    //window.location.href = "mainmenu.html"; // Redirect to mainmenu.html
+});
 
 const balls = [];
 const ballRadius = 8;
@@ -147,6 +158,11 @@ function addLogEntry(bet, payout, profit) {
         minute: '2-digit',
         second: '2-digit',
     });
+
+    if (profit >= 0) totalWin += profit;
+    else totalLoss += Math.abs(profit);
+    console.log(`Total Wins: $${totalWin.toFixed(2)}`);
+    console.log(`Total Losses: $${totalLoss.toFixed(2)}`);
 
     const row = document.createElement('tr');
     row.innerHTML = `
