@@ -21,7 +21,8 @@
             </div>
         </header>
         
-        <i id="info" class="fa-solid fa-circle-info"></i>
+        <i id="info" class="fa-solid fa-circle-info"></i>  
+        <button id="exit">Exit</button>
         <div class="modal" id="infoModal">
             <div class="modal-content">
                 <span class="close" id="closeModal">&times;</span>
@@ -39,7 +40,7 @@
             <h1>BEHIND THE DOOR</h1>
             <div class="bet-section">
                 <input type="text" id="bet" name="bet">
-                <button type="submit" value="start" id="betButton">BET</button>
+                <button type="submit" value="start" id="betButton" onclick="startGame()">BET</button>
             </div>
             <div id="game-container">
                 <div class="door" id="door1" onclick="openDoor(1)">

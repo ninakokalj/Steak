@@ -1,24 +1,28 @@
-let score = 0;
-let bet  = 0;
-let chanceOfDeath = 0;
-let isGameOver = false; 
-let gameStarted = false;
-document.querySelector('button').addEventListener('click', startGame);
 
-function startGame() {
-    bet = parseInt(document.getElementById("bet").value, 10);
-    if (isNaN(bet) || bet <= 0) {
-        alert("Please enter a valid bet amount!");
-        return;
-    }
-    
-    score = bet;
-    isGameOver = false;
-    gameStarted = true;
-    document.getElementById('message').querySelector('p').textContent = `Current Score: ${score}.`;
-    toggleBet();
-}
+//-----------------logika igre-------------------------
 
+//globalne spremenljivke
+let score;
+let bet;
+let chanceOfDeath;
+let isGameOver; 
+let gameStarted;
+let isDoorLocked = false;
+
+//za bazo spremeljivke
+let totalWin;
+let totalLoss;
+let sessionProfit;
+let balance;
+let username;
+
+//exit
+const exitButton = document.getElementById("exit");
+exitButton.addEventListener("click", () => {
+    // ---------tomi------------- 
+});
+
+//toggle za bet
 function toggleBet(){
     const betButton = document.getElementById("betButton");
     const betInput= document.getElementById("bet");
@@ -31,16 +35,46 @@ function toggleBet(){
     betInput.classList.toggle("disabled", isDisabled);
 }
 
-let isDoorLocked = false;
+//init
+function startGame() {
+    //resetiraj
+    score = 0;
+    chanceOfDeath = 0;
+    isGameOver = false;
+    gameStarted = false;
+    isDoorLocked = false;
+    document.querySelectorAll('.door').forEach(door => {
+        if (door.id !== "emergency") {
+            const img = door.querySelector('img');
+            img.src = "media/closed-door.png";
+            img.alt = "Closed Door";
+
+            const number = door.querySelector('.behind-door');
+            number.style.display = "none";
+        }
+    });
+    toggleBet();
+    
+    //inicializiraj
+    bet = parseInt(document.getElementById("bet").value, 10);
+    if (isNaN(bet) || bet <= 0) {
+        alert("Please enter a valid bet amount!");
+        return;
+    }
+    score = bet;
+    isGameOver = false;
+    gameStarted = true;
+    document.getElementById('message').querySelector('p').textContent = `Current Score: ${score}.`;
+}
+
+// odpri vrata in prikaži usodo igralca
 function openDoor(doorNumber) {
     if (!gameStarted || isGameOver) {
         alert("Bet before trying to start the game!");
         return;
     }
 
-    if (isDoorLocked) {
-        return;
-    }
+    if (isDoorLocked) return;
 
     const door = document.getElementById(`door${doorNumber}`);
     const img = door.querySelector('img');
@@ -85,6 +119,10 @@ function openDoor(doorNumber) {
         setTimeout(() => {
             document.body.style.backgroundColor = ""; 
         }, 500);
+        setTimeout(() => {
+            resetState(doorNumber);
+            isDoorLocked = false;
+        }, 1500);
         setTimeout(() => endGame("You hit a bomb! Game over."), 1500);
         return;
     }
@@ -139,13 +177,12 @@ function openDoor(doorNumber) {
 
 }
 
-
 function resetState(doorNumber) {
     const door = document.getElementById(`door${doorNumber}`);
     const img = door.querySelector('img');
     const number = document.getElementById(`number${doorNumber}`);
 
-    // Reset door
+    // odprta vrata zapri
     img.src = "media/closed-door.png";
     img.alt = "Closed Door";
     number.style.display = "none";
@@ -167,13 +204,32 @@ function cashOut() {
     setTimeout(() => {
         document.body.style.backgroundColor = ""; 
     }, 500);
-    
+
     setTimeout(() => {
         showResultModal(`Cash Out!`, `You earned 🥩${score}.`)
     }, 1500);
  }
  return;
 }
+
+//-------------info modal--------------------
+const infoIcon = document.getElementById('info');
+const infoModal = document.getElementById('infoModal');
+const closeModal = document.getElementById('closeModal');
+
+infoIcon.addEventListener('click', () => {
+    infoModal.style.display = 'block';
+});
+
+closeModal.addEventListener('click', () => {
+    infoModal.style.display = 'none';
+});
+
+window.addEventListener('click', (event) => {
+    if (event.target === infoModal) {
+        infoModal.style.display = 'none';
+    }
+});
 
 function showResultModal(title, message) {
     const resultModal = document.createElement("div");
@@ -194,46 +250,7 @@ function showResultModal(title, message) {
 }
 
 function closeResultModal(){
-    document.body.removeChild(resultModal);
-    resetGame();  
-}
-
-function resetGame() {
-    score = 0;
-    chanceOfDeath = 0;
-    isGameOver = false;
-    gameStarted = false;
-    isDoorLocked = false;
-
-    document.getElementById('message').querySelector('p').textContent = "Welcome! Place your bet to start the game.";
-
-    document.querySelectorAll('.door').forEach(door => {
-        if (door.id !== "emergency") {
-            const img = door.querySelector('img');
-            img.src = "media/closed-door.png";
-            img.alt = "Closed Door";
-
-            const number = door.querySelector('.behind-door');
-            number.style.display = "none";
-        }
-    });
+    document.body.removeChild(resultModal); 
     toggleBet();
+    document.getElementById('message').querySelector('p').textContent = `>Welcome! Place your bet to start the game.`;
 }
-
-const infoIcon = document.getElementById('info');
-const infoModal = document.getElementById('infoModal');
-const closeModal = document.getElementById('closeModal');
-
-infoIcon.addEventListener('click', () => {
-    infoModal.style.display = 'block';
-});
-
-closeModal.addEventListener('click', () => {
-    infoModal.style.display = 'none';
-});
-
-window.addEventListener('click', (event) => {
-    if (event.target === infoModal) {
-        infoModal.style.display = 'none';
-    }
-});

@@ -176,12 +176,40 @@ input, button {
 }
 
 #info {
-    margin-top: 1.25rem;
-    font-size: 2.3rem;
-    color: #1B1833;
+    display: inline-block;
+    margin-top: 0;
+    margin-right: 1rem;
+    font-size: 1.8rem;
+    color: #ffffff;
+    background-color: #1B1833;
+    padding: 0.5rem;
+    border-radius: 50%;
+    box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.2);
+    vertical-align: middle;
+    text-align: center;
 }
 
 #info:hover {
+    background-color: #0d0c1a;
+    cursor: pointer;
+}
+
+#exit {
+    display: inline-block;
+    background-color: #1B1833;
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 1.25rem;
+    font-size: 1.5rem;
+    font-family: 'VT323', monospace;
+    text-transform: uppercase;
+    box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.2);
+    vertical-align: middle;
+}
+
+#exit:hover {
+    background-color: #0d0c1a;
     cursor: pointer;
 }
 

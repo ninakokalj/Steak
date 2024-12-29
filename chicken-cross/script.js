@@ -1,3 +1,18 @@
+//za bazo spremeljivke
+let totalWin;
+let totalLoss;
+let sessionProfit;
+let balance = parseFloat("@ViewBag.Balance".replace(',', '.')) || 0;
+document.getElementById('usermeat').textContent = balance.toFixed(2);
+document.querySelector('#username').textContent = "@ViewBag.Username";
+
+//exit
+const exitButton = document.getElementById("exit");
+exitButton.addEventListener("click", () => {
+    // ---------tomi------------- 
+});
+
+
 const chicken = document.getElementById('chicken');
 const boulder = document.getElementById('boulder');
 const moveButton = document.getElementById('moveButton');
@@ -15,9 +30,13 @@ let multiplier = 1;
 let steps = 0;
 let isGameOver = false;
 let gameStarted = false;
+let win = false;
 let chanceOfDeath = 0.33;
 
 function startGame() {
+    totalWin = 0;
+    totalLoss = 0;
+    sessionProfit = 0;
     bet = parseInt(document.getElementById("bet").value, 10);
     if (isNaN(bet) || bet <= 0) {
         alert("Please enter a valid bet amount!");
@@ -26,6 +45,12 @@ function startGame() {
     score = bet;
     gameStarted = true;
     toggleBet();
+
+    //baza
+    balance -= bet;
+    document.getElementById('usermeat').textContent = balance.toFixed(2);
+
+
 }
 
 function moveChicken() {
@@ -36,11 +61,12 @@ function moveChicken() {
 
     moveButton.disabled = true;
 
+    //death
     if (Math.random() < chanceOfDeath) { 
         loseSound.play();
         const offset = 2.6; 
         fallAnimation(offset + position);
-        setTimeout(() => endGame(bet * (-1)), 1000);
+        setTimeout(() => endGame(`Game Over!`, `You lost 🥩${bet}.`, bet * (-1)), 1000);
         return;
     }
     
@@ -58,7 +84,7 @@ function moveChicken() {
     }, 300);
     
     multiplier += Math.random() * 1.55; 
-    statusText.textContent = `Chicken moved safely! Potential reward: 🥩${(score * multiplier).toFixed(1)}.`;
+    statusText.textContent = `Chicken moved safely! Potential reward: 🥩${(score * multiplier).toFixed(2)}.`;
 
     if (steps != 10) {
         chickenSound.play();
@@ -67,24 +93,39 @@ function moveChicken() {
         }, 1000);
     } else {
         multiplier = 100.2;
-        const totalScore = score * multiplier;
+        const totalScore = parseFloat((score * multiplier)).toFixed(2);
         jackpotSound.play();
-        setTimeout(() => endGame(totalScore), 1000);
+        win = true;
+        setTimeout(() => endGame(`Jackpot!`, `You won 🥩${Math.abs(totalScore)}.`, totalScore), 1000);
     }
 }
 
 function cashOut() {
     if (isGameOver) return;
-    const totalScore = score * multiplier;
-    showResultModal(`Cash Out!`, `You earned 🥩${totalScore.toFixed(2)}.`);
+    const totalScore = score = parseFloat((score * multiplier)).toFixed(2);
+
+    totalWin += totalScore;
+    sessionProfit += totalScore;
+    balance += totalScore;
+    document.getElementById('usermeat').textContent = balance.toFixed(2);
+
+    showResultModal(`Cash Out!`, `You earned 🥩${totalScore}.`);
     statusText.textContent = `You cashed out!`;
     isGameOver = true;
+    console.log(totalScore);
 }
 
-function endGame(totalScore) {
+function endGame(title, message, totalScore) {
     isGameOver = true;
     statusText.textContent = "Game Over!";
-    showResultModal(`Game Over!`, `You lost 🥩${Math.abs(totalScore.toFixed(2))}.`);
+
+    totalLoss += bet;
+    sessionProfit -= bet;
+    document.getElementById('usermeat').textContent = balance.toFixed(2);
+
+    showResultModal(title, message);
+    if (!win) totalScore = 0;
+
 }
 
 function resetGame() {
@@ -95,6 +136,7 @@ function resetGame() {
     isGameOver = false;
     gameStarted = false;
     chanceOfDeath = 0.33;
+    win = false;
 
     const chickenImage = chicken.querySelector('img');
     chicken.style.transition = 'transform 0.3s ease-out';

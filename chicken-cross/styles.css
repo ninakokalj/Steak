@@ -6,10 +6,39 @@ body {
     background-color: #F4E0AF;
 }
 
+
 header {
-    background-color: #1B1833;
     width: 100%;
-    height: 6.25rem;
+    height: 10%;
+    display: flex; 
+    justify-content: flex-end; 
+    align-items: center;
+    background-color: #1B1833;
+    top: 0;
+    margin-bottom: 1.25rem;
+}
+
+.userDiv {
+    display: flex; 
+    align-items: center; 
+    gap: 0.5rem; 
+    margin-right: 5%;
+}
+
+#user {
+    width: 3rem; 
+    height: 3rem;
+}
+
+.userDiv p {
+    font-size: 1.5rem; 
+    color: #e8eaed;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#username {
+    margin: 0; 
+    margin-right: 10%;
 }
 
 .game-container {
@@ -129,19 +158,47 @@ button:hover {
         opacity: 1;
     }
 }
-
 #info {
-    margin-top: 1.25rem;
-    font-size: 2.3rem;
-    color: #1B1833;
+    display: inline-block;
+    margin-top: 0;
+    margin-right: 1rem;
+    font-size: 1.8rem;
+    color: #ffffff;
+    background-color: #1B1833;
+    padding: 0.5rem;
+    border-radius: 50%;
+    box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.2);
+    vertical-align: middle;
+    text-align: center;
 }
 
 #info:hover {
+    background-color: #0d0c1a;
     cursor: pointer;
 }
 
+#exit {
+    display: inline-block;
+    background-color: #1B1833;
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 1.25rem;
+    font-size: 1.5rem;
+    font-family: 'VT323', monospace;
+    text-transform: uppercase;
+    box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.2);
+    vertical-align: middle;
+}
+
+#exit:hover {
+    background-color: #0d0c1a;
+    cursor: pointer;
+}
+
+
 .modal {
-    display: none;
+    display: none; 
     position: fixed;
     z-index: 1000;
     left: 0;
@@ -149,16 +206,16 @@ button:hover {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
+    justify-content: center; 
+    align-items: center; 
 }
 
 .modal-content {
     background-color: white;
-    margin: 0.625rem auto;
+    margin: 10% auto; 
     padding: 1.25rem;
     border: 0.0625rem solid #888;
-    width: 25rem;
+    width: 40%;
     border-radius: 0.5rem;
     box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
     text-align: left;
@@ -169,7 +226,7 @@ button:hover {
     margin: 1.5625rem;
 }
 
-.modal-content p {
+.modal-content p, ul,  li {
     font-size: 1.5rem;
     margin: 1.5625rem;
 }
