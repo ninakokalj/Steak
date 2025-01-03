@@ -1,0 +1,277 @@
+/* HEADER */
+header nav {
+    background: linear-gradient(180deg, rgb(27, 24, 51) 0%, rgb(27, 24, 51) 50%, rgb(27, 24, 51)100%);
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.logo-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #A84459;
+    margin-right: 10px;
+    margin-left: 10px;
+    font-family: 'Oswald', sans-serif;
+
+
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease-in-out;
+}
+
+.logo-text:hover {
+    color: #FFD700;
+    border-bottom: 2px solid #FFD700;
+    cursor: pointer;
+}
+
+.steakLogo {
+    width: 35px;
+    height: 35px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.steakLogo:hover {
+    transform: scale(1.1);
+}
+
+
+
+
+
+
+
+.hero {
+    background: 
+        linear-gradient(90deg, rgba(2, 0, 36, 0.8) 0%, rgba(110, 11, 175, 0.8) 53%, rgba(0, 212, 255, 0.8) 100%), 
+        url('/images/hero.png'), /* Slika čez GIF */
+        url('/images/stars.gif'); /* GIF v ozadju */
+    
+    background-blend-mode: overlay, normal; /* Kombinira gradient s sliko, GIF ostane spodaj */
+    width: 100%; /* Širina hero sekcije */
+    height: 60vh; /* Večja višina hero sekcije */
+    
+    display: flex;
+    align-items: center; /* Vertikalno centriranje vsebine */
+    justify-content: flex-start; /* Poravnava vsebine levo */
+    padding: 50px 80px; /* Več prostora znotraj hero */
+    color: white; /* Barva besedila */
+    
+    background-size: cover, contain, cover; /* Različne velikosti za vsak sloj */
+    background-repeat: no-repeat; /* Prepreči ponavljanje za vse sloje */
+    background-position: center center, 90% 50%, center; /* Prilagodi pozicije za vsak sloj */
+}
+
+.hero-content {
+    max-width: 600px; /* Omeji širino vsebine za boljši videz */
+    background: rgba(0, 0, 0, 0.5); /* Polprosojno črno ozadje */
+    backdrop-filter: blur(10px); /* Zameglitev ozadja */
+    padding: 20px; /* Notranji odmik za boljši izgled */
+    border-radius: 10px; /* Zaobljeni robovi za bolj eleganten videz */
+    color: white; /* Zagotovi, da je besedilo belo za kontrast */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Dodaj subtilno senco */
+    margin-left: 100px; /* Premakni vsebino bolj na desno */
+}
+
+.hero h1 {
+    font-size: 4rem; /* Velikost naslova */
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 1.5rem; /* Velikost besedila */
+    margin-bottom: 25px;
+}
+
+/* Spreminjanje barve */
+@keyframes color-change {
+    0% { color: #FFD700; }
+    25% { color: #FF4500; }
+    50% { color: #FF6347; }
+    75% { color: #FFA07A; }
+    100% { color: #FFD700; }
+}
+
+/* Povečanje in zmanjšanje velikosti */
+@keyframes size-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+.glavni-naslov {
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center;
+    color: #FFD700;
+    text-shadow: 0 0 10px #FF4500, 0 0 20px #FF6347, 0 0 30px #FFA07A;
+    animation: color-change 3s infinite, size-pulse 2s infinite;
+}
+
+
+
+
+
+
+/* Section Title */
+.section-title {
+    text-align: center;
+    margin: 30px auto; /* Središčenje */
+    font-size: 2.5rem; /* Veliko in jasno besedilo */
+    color: #FFD700; /* Svetlejša zlata barva */
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 0 0 15px #FF8C00, 0 0 30px #FFA500; /* Bolj živahen sijaj v oranžno-zlatih tonih */
+    font-family: 'Georgia', serif;
+    padding-bottom: 10px;
+    border-bottom: 4px solid #FFA500; /* Zlato-oranžna črta za več kontrasta */
+    background-color: #302c49; /* Temno modro ozadje za jasen kontrast */
+    padding: 10px 20px;
+    border-radius: 10px; /* Zaobljeni robovi za eleganten videz */
+    display: block; /* Sprememba na block za popolno centriranje */
+    width: fit-content; /* Prilagodljiva širina glede na vsebino */
+}
+
+
+
+/* Games Container */
+.games-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 20px;
+
+    background: linear-gradient(180deg, #1E1E2F, #2C2C3F); /* Temni gradient za premium videz */
+    border-radius: 15px; /* Zaobljeni robovi */
+
+
+}
+
+/* Game Item */
+.game-item {
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.game-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.game-item h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+.game-item img {
+    width: 100%; /* Naj bo slika vedno prilagojena širini starša */
+    height: 250px; /* Nastavite fiksno višino za vse slike */
+    object-fit: cover; /* Ohranite razmerje slike, odrežite presežke */
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.game-item img:hover {
+    transform: scale(1.3);
+}
+
+
+
+/* Balance and Loan Section */
+.balance-loan-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px; /* Adjust gap between balance and loan button */
+    margin-top: 20px;
+    flex-wrap: nowrap;
+}
+
+/* Balance and Loan Section */
+.balance-loan-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px; /* Adjust spacing between balance box and button */
+    margin: 20px 0; /* Top and bottom spacing */
+    flex-wrap: wrap; /* Wrap elements for better responsiveness */
+}
+
+/* Balance Section */
+.balance-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; /* Center-align balance box content */
+}
+
+.balance-box {
+    background: radial-gradient(circle, #3f3444, #1b1925); /* Luxury gradient */
+    color: #FFD700; /* Gold text */
+    text-align: center;
+    padding: 20px 15px;
+    border-radius: 40px; /* Slightly rounded corners for modern look */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6); /* Stronger shadow for depth */
+    font-family: 'Trebuchet MS', sans-serif; /* Professional font */
+    width: 250px; /* Balanced width for visual hierarchy */
+    border: 2px solid #FFD700; /* Thin gold border */
+}
+
+.balance-box h2 {
+    font-size: 1.2rem; /* Slightly larger for visibility */
+    margin: 0 0 10px; /* More spacing below heading */
+    text-transform: uppercase;
+    letter-spacing: 1.5px; /* More spacing for premium feel */
+    color: #FFFFFF; /* White for the title */
+}
+
+.balance-content {
+    font-size: 2rem; /* Larger and more prominent */
+    font-weight: bold;
+    color: #FFD700; /* Gold color for the amount */
+    text-shadow: 0 0 10px #FFD700; /* Glow effect for emphasis */
+    margin-top: 5px;
+}
+
+/* Loan Button */
+.loan-button {
+    padding: 15px 30px;
+    width: 150px; /* Match balance box width */
+    font-size: 1.5rem; /* Larger font size */
+    font-weight: bold;
+    background-color: #FFD700; /* Gold background */
+    color: #1c1c1c; /* Dark text for contrast */
+    border: 2px solid #FFD700; /* Gold border */
+    border-radius: 40px; /* Rounded edges for consistency */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6); /* Strong shadow for better visibility */
+    transition: all 0.3s ease-in-out; /* Smooth transition for hover */
+    font-family: 'Trebuchet MS', sans-serif; /* Match balance font */
+    text-transform: uppercase; /* Consistent style with balance box */
+}
+
+.loan-button:hover {
+    background-color: #E5C100; /* Slightly darker yellow on hover */
+    color: #000; /* Black text on hover */
+    transform: translateY(-5px) scale(1.05); /* Elevation effect */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8); /* Stronger shadow on hover */
+}
+
+
+
+
+
+
+

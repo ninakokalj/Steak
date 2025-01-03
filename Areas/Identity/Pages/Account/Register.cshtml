@@ -1,0 +1,139 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+
+
+<div class="register-page">
+    <h1 class="register-title">Register</h1> <!-- Naslov z lastnim razredom -->
+    <div class="register-container">
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="register-form">
+            <div asp-validation-summary="ModelOnly" class="register-validation" role="alert"></div>
+            <div class="form-group">
+                <label asp-for="Input.UserName" class="form-label">Username</label>
+                <input asp-for="Input.UserName" class="form-input" autocomplete="username" aria-required="true" placeholder="Username" />
+                <span asp-validation-for="Input.UserName" class="form-error"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Email" class="form-label">Email</label>
+                <input asp-for="Input.Email" class="form-input" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                <span asp-validation-for="Input.Email" class="form-error"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Password" class="form-label">Password</label>
+                <input asp-for="Input.Password" class="form-input" autocomplete="new-password" aria-required="true" placeholder="Password" />
+                <span asp-validation-for="Input.Password" class="form-error"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.ConfirmPassword" class="form-label">Confirm Password</label>
+                <input asp-for="Input.ConfirmPassword" class="form-input" autocomplete="new-password" aria-required="true" placeholder="Confirm Password" />
+                <span asp-validation-for="Input.ConfirmPassword" class="form-error"></span>
+            </div>
+            <button id="registerSubmit" type="submit" class="register-button">Register</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+/* Global settings */
+.register-page {
+    font-family: 'Arial', sans-serif;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 83vh;
+    flex-direction: column; /* Naslov nad obrazcem */
+}
+
+/* Naslov */
+.register-title {
+    font-size: 2.5rem; /* Velika pisava za poudarek */
+    color: #FFD700;
+    text-shadow: 0 0 15px #FFD700, 0 0 30px #FF8C00; /* Dodan bolj izrazit sijaj */
+    text-align: center; /* Poravnano na sredino */
+
+    padding: 10px 20px; /* Doda prostor okrog besedila */
+    border-radius: 12px; /* Zaobljeni robovi za prijetnejši izgled */
+    display: inline-block; /* Ustvari "kartico" za naslov */
+    margin-bottom: 20px; /* Prostor med naslovom in naslednjimi elementi */
+}
+
+/* Register container */
+.register-container {
+    background: #1c1c1c;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+/* Form elements */
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    text-align: left;
+}
+
+.form-label {
+    font-size: 1rem;
+    color: #FFD700;
+    margin-bottom: 5px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 2px solid #FFD700;
+    border-radius: 8px;
+    background: #2c3e50;
+    color: #FFD700;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #FF8C00;
+    box-shadow: 0 0 10px #FFD700, 0 0 20px #FF8C00;
+}
+
+/* Validation messages */
+.form-error {
+    color: #FF6347;
+    font-size: 0.9rem;
+}
+
+/* Button */
+.register-button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: bold;
+    background: #FFD700;
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.register-button:hover {
+    background: #FF8C00;
+    color: #fff;
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(255, 140, 0, 0.5);
+}
+</style>

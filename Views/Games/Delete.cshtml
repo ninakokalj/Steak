@@ -1,0 +1,91 @@
+@model web.Models.Game
+
+@{
+    ViewData["Title"] = "Delete Game";
+}
+
+<div class="games-delete">
+    <h1 style="color: #FF4500; text-align: center; text-shadow: 0 0 10px #FFD700;">Confirm Deletion</h1>
+
+    <p style="text-align: center; margin: 20px 0;">
+        Are you sure you want to delete the following game?
+    </p>
+
+    <div class="details-content">
+        <dl class="row">
+            <dt class="col-sm-4">Game Name</dt>
+            <dd class="col-sm-8">@Model.Game_name</dd>
+
+            <dt class="col-sm-4">Game Description</dt>
+            <dd class="col-sm-8">@Model.Game_description</dd>
+        </dl>
+    </div>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="ID_game" />
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-danger custom-delete-btn">Delete</button>
+            <a asp-action="Index" class="btn btn-secondary custom-cancel-btn">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<style>
+/* Splošni stil za stran */
+.games-delete {
+    background-color: #2C2C2C; /* Temno ozadje za casino občutek */
+    color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    margin: 20px auto;
+    max-width: 600px; /* Omejimo širino prikaza */
+    text-align: left;
+}
+
+/* Stil za oznake (dt) in vrednosti (dd) */
+.details-content dt {
+    color: #FFD700; /* Zlata barva za oznake */
+    font-weight: bold;
+}
+
+.details-content dd {
+    color: white; /* Bela barva za vrednosti */
+    margin-bottom: 10px;
+}
+
+/* Stil za gumbe */
+.custom-delete-btn {
+    background-color: #FF0000; /* Intenzivna rdeča za opozorilo */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.custom-delete-btn:hover {
+    background-color: #FF6347; /* Svetlejša rdeča ob hoverju */
+    color: black;
+}
+
+.custom-cancel-btn {
+    background-color: #3C3C3C; /* Temno ozadje za gumb */
+    color: white;
+    border: 1px solid #FFD700;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.custom-cancel-btn:hover {
+    background-color: #444; /* Svetlejša siva ob hoverju */
+    color: #FFD700; /* Zlata za besedilo */
+    border-color: #FF4500; /* Rdeča za obrobo */
+}
+</style>

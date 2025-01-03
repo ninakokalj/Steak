@@ -1,0 +1,192 @@
+@model web.Models.Player
+
+@{
+    ViewData["Title"] = "Casino";
+}
+
+<header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white box-shadow">
+            <div class="container-fluid">
+
+                <!-- <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">bla</a> -->
+                <div class="logo-container">
+                    <span class="logo-text" onclick="window.location.href='@Url.Action("Index", "Home")'">
+                    Steak
+                    </span>
+
+                    <img src="/images/steakLogo.png" alt="Steak Logo" class="steakLogo">
+                </div>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+
+                        <!-- TUKI DODAŠ GUMBE NA HEADER
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        -->
+
+                        @* Zakomentirano preverjanje za Administratorja *@
+                        
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Players" asp-action="Index" style="color: white;">Players</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Games" asp-action="Index" style="color: white;">GameTypes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="GameStates" asp-action="Index" style="color: white;">GameStates</a>
+                            </li>
+                            
+                        }
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Casino" asp-action="Index" style="color: white;">Games</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Leaderboard" asp-action="Index" style="color: white;">Leaderboard</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Statistics" asp-action="Index" style="color: white;">Statistics</a>
+                        </li>
+                        
+
+            
+   
+
+                            
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+</header>
+
+
+
+
+
+
+
+<!-- Hero Section -->
+<div class="hero">
+    <div class="hero-content">
+        <h1 class="glavni-naslov">Bet Big, Win Juicy</h1>
+        <p>Play now and turn your luck into big wins!</p>
+    </div>
+</div>
+
+<!-- Casino Games Section -->
+<h1 class="section-title">Your Gateway to Fortune Awaits</h1>
+
+<!-- Balance and Loan Section -->
+<div class="balance-loan-section">
+    <!-- Balance Display -->
+    <div class="balance-container">
+        <div class="balance-box">
+            <h2>Your Balance</h2>
+            <div class="balance-content" id="balance-display">
+                <span>
+                    @(((decimal)ViewBag.Balance).ToString("F2", System.Globalization.CultureInfo.InvariantCulture))
+                </span>
+            </div>
+        </div>
+    </div>
+    <!-- Loan Button -->
+    <button id="loan-button" class="btn btn-primary loan-button">Loan</button>
+</div>
+
+
+
+
+
+
+<!-- Games -->
+<div class="games-container">
+    
+    <!-- NINA -->
+    <div class="game-item">
+        <h2>Slot</h2>
+        <a asp-controller="Igre" asp-action="Slot" asp-route-playerId="@ViewData["PlayerId"]">
+            <img src="/images/Slot.png" alt="Slot Game">
+        </a>
+    </div>
+    <div class="game-item">
+        <h2>Higher-Lower</h2>
+        <a asp-controller="Igre" asp-action="HigherLower" asp-route-playerId="@ViewData["PlayerId"]">
+            <img src="/images/HigherLower.png" alt="Higher-Lower Game">
+        </a>
+    </div>
+
+
+    <!-- JAN -->
+    <div class="game-item">
+        <h2>Mines</h2>
+        <a asp-controller="Igre" asp-action="Mines" asp-route-playerId="@ViewData["PlayerId"]">
+            <img src="/images/Mines.png" alt="Mines Game">
+        </a>
+    </div>
+    <div class="game-item">
+        <h2>Plinko</h2>
+        <a asp-controller="Igre" asp-action="Plinko" asp-route-playerId="@ViewData["PlayerId"]">
+            <img src="/images/Plinko.png" alt="Plinko Game">
+        </a>
+    </div>
+
+
+    <!-- PIKA -->
+    <div class="game-item">
+        <h2>Doors</h2>
+        <a asp-controller="Igre" asp-action="Doors" asp-route-playerId="@ViewData["PlayerId"]">
+            <img src="/images/Doors.png" alt="Doors Game">
+        </a>
+    </div>
+    <div class="game-item">
+        <h2>Chicken Cross</h2>
+        <a asp-controller="Igre" asp-action="ChickenCross" asp-route-playerId="@ViewData["PlayerId"]">
+            <img src="/images/ChickenCross.png" alt="Chicken Cross Game">
+        </a>
+    </div>
+</div>
+
+<br>
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+
+@section Scripts {
+<script>
+    document.getElementById("loan-button").addEventListener("click", () => {
+        fetch("/Casino/Loan", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error("You can only loan if your have less than 1 meat.");
+            }
+        })
+        .then(data => {
+            const balanceElement = document.getElementById("balance-display");
+            balanceElement.textContent = parseFloat(data.newBalance).toFixed(2);
+            alert("You have received a loan of 1000!");
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert(error.message);
+        });
+    });
+
+</script>
+}

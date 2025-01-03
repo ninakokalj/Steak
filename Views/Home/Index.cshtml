@@ -1,0 +1,180 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white box-shadow">
+            <div class="container-fluid">
+
+                <!-- <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">bla</a> -->
+                <div class="logo-container">
+                    <span class="logo-text" onclick="window.location.href='@Url.Action("Index", "Home")'">
+                    Steak
+                    </span>
+
+                    <img src="/images/steakLogo.png" alt="Steak Logo" class="steakLogo">
+                </div>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+
+                        <!-- TUKI DODAŠ GUMBE NA HEADER
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        -->
+
+                        @* Zakomentirano preverjanje za Administratorja *@
+                        
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Players" asp-action="Index" style="color: white;">Players</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Games" asp-action="Index" style="color: white;">GameTypes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="GameStates" asp-action="Index" style="color: white;">GameStates</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Casino" asp-action="Index" style="color: white;">Games</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Leaderboard" asp-action="Index" style="color: white;">Leaderboard</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Statistics" asp-action="Index" style="color: white;">Statistics</a>
+                            </li>
+                        }
+
+                        
+                        
+
+            
+   
+
+                            
+                    </ul>
+                    <i id="settings" class="fas fa-cog"></i>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+</header>
+
+
+ <!-- Hero Section -->
+<div class="hero">
+    <div class="hero-content">
+        <h1 class="glavni-naslov">Bet Big, Win Juicy</h1>
+        <p>Get 🥩20,000 for Free, by making an account</p>
+        <div class="hero-buttons" style="display: flex; justify-content: center; gap: 50px;"> 
+            <a asp-area="Identity" asp-page="/Account/Login" 
+            class="btn btn-primary" 
+            style="padding: 10px 20px; font-size: 1rem; margin: 0; background-color: #A84459; color: white; border: 2px solid #7C2538; border-radius: 5px; transition: all 0.3s ease;">
+                Login
+            </a>
+            <a asp-area="Identity" asp-page="/Account/Register" 
+            class="btn btn-secondary" 
+            style="padding: 10px 20px; font-size: 1rem; margin: 0; background-color: #A84459; color: white; border: 2px solid #7C2538; border-radius: 5px; transition: all 0.3s ease;">
+                Register
+            </a>
+        </div>
+        <style>
+        /* Efekt hover za gumbe */
+       .hero-buttons .btn-primary:hover, .hero-buttons .btn-secondary:hover {
+    background-color: #7C2538; /* Temnejša rdeča ob hoverju */
+    color: white; /* Sprememba barve besedila na belo */
+    border-color: #A84459; /* Sprememba barve obrobe na #A84459 */
+    transform: scale(1.25); /* Rahlo povečanje gumba */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Senca pod gumbom */
+}
+
+        </style>
+
+    </div>
+</div>
+
+
+
+
+<!-- Container za vsebino -->
+<div class="container-fluid mt-5">
+    <div class="row gx-4"> <!-- gx-4 doda vodoravni razmik med stolpci -->
+
+        <!-- Levi stolpec (3/12) -->
+        <div class="col-3 ced-ad-container">
+            <img src="/images/Slot.png" alt="Ad Image" />
+            <img src="/images/ChickenCross.png" alt="Ad Image" />
+            <img src="/images/Plinko.png" alt="Ad Image" />
+        </div>
+        
+
+        <!-- Sredinski stolpec (6/12) -->
+        <div class="col-6 content-container">
+            <h1>Casino Steak</h1>
+
+            <p style="font-size: 1.5rem;" class="highlight-text">Feeling low on cash or not ready to gamble with real money?</p>
+            <br>
+            <p>
+                No problem! At Casino Steak, we bring the thrill of 
+                a real casino to your fingertips, completely risk-free. By signing up for a free account, you'll instantly 
+                receive <strong>🥩20,000</strong>—our virtual currency—to play and explore without any worries. 
+                Experience the excitement of high-stakes games without the fear of losing real money. 
+            </p>
+
+            <p>
+                Whether you're here 
+                to sharpen your skills, test your strategies, or just unwind, our platform is designed to offer a premium 
+                gaming experience for all. Dive in and discover a world of entertainment, where every spin, card, and roll 
+                brings you closer to the jackpot!
+            </p>
+
+            
+            <br>
+        
+            <p>
+                We offer a variety of exciting games that cater to all kinds of players, including:
+                <ul class="casino-games-list">
+                <li><strong>Classic Slots:</strong> Experience the timeless charm of slot machines.</li>
+                <li><strong>Higher or Lower:</strong> Test your intuition in this thrilling card game.</li>
+                <li><strong>Chicken Cross:</strong> A fun and unique game full of surprises.</li>
+                <li><strong>Doors:</strong> Take your chances and pick the right door to win big.</li>
+                <li><strong>Plinko:</strong> Drop the puck and watch it bounce its way to victory.</li>
+                <li><strong>Mines:</strong> Strategize and uncover hidden treasures while avoiding the mines.</li>
+            </ul>
+            </p>
+            
+        
+        </div>
+
+
+
+
+        <!-- Desni stolpec (3/12) -->
+        <div class="col-3 ced-ad-container">
+            <img src="/images/HigherLower.png" alt="Ad Image" />
+            <img src="/images/Doors.png" alt="Ad Image" />
+            <img src="/images/Mines.png" alt="Ad Image" />
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+
+
+
+
+
+
+

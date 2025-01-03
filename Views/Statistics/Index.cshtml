@@ -1,0 +1,95 @@
+@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"] = "Game Statistics";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white box-shadow">
+            <div class="container-fluid">
+
+                <!-- <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">bla</a> -->
+                <div class="logo-container">
+                    <span class="logo-text" onclick="window.location.href='@Url.Action("Index", "Home")'">
+                    Steak
+                    </span>
+
+                    <img src="/images/steakLogo.png" alt="Steak Logo" class="steakLogo">
+                </div>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+
+                        <!-- TUKI DODAŠ GUMBE NA HEADER
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        -->
+
+                        @* Zakomentirano preverjanje za Administratorja *@
+                        
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Players" asp-action="Index" style="color: white;">Players</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Games" asp-action="Index" style="color: white;">GameTypes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="GameStates" asp-action="Index" style="color: white;">GameStates</a>
+                            </li>
+                            
+                        }
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Casino" asp-action="Index" style="color: white;">Games</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Leaderboard" asp-action="Index" style="color: white;">Leaderboard</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Statistics" asp-action="Index" style="color: white;">Statistics</a>
+                        </li>
+                        
+
+            
+   
+
+                            
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+</header>
+
+
+
+<div class="statistics-container">
+    <br>
+    <h1 class="statistics-title">Game Statistics</h1>
+    <br>
+    <div class="statistics-grid">
+        @foreach (var stat in Model)
+        {
+            <div class="stat-box">
+                <h2>@stat.Game.Game_name</h2>
+                <p><strong>Total Wins:</strong> @stat.TotalWins</p>
+                <p><strong>Total Losses:</strong> @stat.TotalLosses</p>
+                <p><strong>Total Profit/Loss:</strong> @stat.TotalProfitLoss</p>
+            </div>
+        }
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="/css/statistics.css" />
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">

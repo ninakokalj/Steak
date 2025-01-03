@@ -1,0 +1,111 @@
+/* HEADER */
+header nav {
+    background: linear-gradient(180deg, rgb(27, 24, 51) 0%, rgb(27, 24, 51) 50%, rgb(27, 24, 51)100%);
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.logo-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #A84459;
+    margin-right: 10px;
+    margin-left: 10px;
+    font-family: 'Oswald', sans-serif;
+
+
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease-in-out;
+}
+
+.logo-text:hover {
+    color: #FFD700;
+    border-bottom: 2px solid #FFD700;
+    cursor: pointer;
+}
+
+.steakLogo {
+    width: 35px;
+    height: 35px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.steakLogo:hover {
+    transform: scale(1.1);
+}
+
+
+  .statistics-container {
+    text-align: center;
+    margin: 20px auto;
+    max-width: 1200px;
+}
+
+
+
+
+
+
+.statistics-container {
+    text-align: center;
+    margin: 40px auto;
+    max-width: 1400px;
+}
+
+.statistics-title {
+    font-size: 3rem;
+    margin-bottom: 40px;
+    color: #FFD700;
+    text-shadow: 0 0 15px #FFD700, 0 0 30px #FF8C00; /* Dodan bolj izrazit sijaj */
+    font-family: 'Arial', sans-serif;
+}
+
+.statistics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px; /* Povečaj razmak med kvadratki */
+}
+
+.stat-box {
+    background-color: #1c1c1c; /* Temnejša barva za bolj eleganten izgled */
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); /* Povečaj senčenje */
+    color: #FFD700;
+    text-align: center; /* Centriraj vsebino */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-family: 'Arial', sans-serif;
+}
+
+.stat-box h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-shadow: 0 0 15px #FFD700, 0 0 30px #FF8C00; /* Dodan bolj izrazit sijaj */
+    color: #FFD700;
+}
+
+.stat-box p {
+    font-size: 1.2rem;
+    margin: 10px 0;
+    color: #fff;
+}
+
+.stat-box:hover {
+    transform: translateY(-15px); /* Povečaj animacijo premika */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6); /* Bolj izrazito senčenje na hover */
+    background-color: #2c3e50; /* Spremeni barvo ozadja ob hoverju */
+}
+
+
+
+
+
+

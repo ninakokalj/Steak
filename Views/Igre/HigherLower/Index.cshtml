@@ -1,0 +1,395 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "HigherLower";
+}
+
+<header>
+    <div class="userDiv">
+        <i id="user" class="fas fa-user"></i>
+        <p id="username"></p>
+        <p>🥩</p>
+        <p id="usermeat"></p>
+    </div>
+</header>
+
+
+<div class="container">
+    <i id="info" class="fa-solid fa-circle-info"></i>
+    <!-- Modal -->
+    <div class="modal" id="infoModal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h2>Higher-Lower</h2>
+            <ul>
+                <li>Start the game by betting a certain amount of money.</li>
+                <li>Guess if the next card will be <strong>higher</strong> or <strong>lower</strong> than the current card.</li>
+                <li>The cards go from lowest to highest in order: <strong>A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K</strong></li>
+                <li>If you guess correctly, your bet amount is <strong>multiplied</strong>.</li>
+                <li>The multiplier increases as the chances of guessing correctly decrease.</li>
+                <li>If you guess wrong, you <strong>lose</strong> your current bet, and the game ends.</li>
+                <li>You can choose to <strong>cash out</strong> at any time to keep your winnings.</li>
+                <li id="last"><strong>The goal is to keep guessing correctly and multiply your winnings!</strong></li>
+            </ul>
+        </div>
+    </div>
+    <div class="game">
+        <div id="currentCard"></div>
+        <div id="history"></div>
+    </div>
+    
+    <div class="controls">
+        
+        <label for="betSize">Bet Size:</label>
+        <input type="number" id="betSize" placeholder="0" min="0.01">
+        
+        <button id="playButton">PLAY</button>
+        
+        <button id="higherButton" style="display: none;">HIGHER &#x21d1;</button>
+        <button id="lowerButton" style="display: none;">LOWER &#x21d3;</button>
+
+        <label id="prof" for="profitInput" style="display: none;">Current Profit:</label>
+        <input type="text" id="profitInput" value="&#129385;0.00" style="display: none;" readonly>
+        <button id="cashOutButton">EXIT</button>
+    </div>
+        
+</div>
+<!-- Modal -->
+<div id="loseModal">
+    <div class="modal-content">
+        <h2></h2>
+        <p></p>
+        <div>
+            <button id="playAgainButton">Play Again</button>
+            <button id="exit">End Game</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+
+const infoIcon = document.getElementById('info');
+const infoModal = document.getElementById('infoModal');
+const closeModal = document.getElementById('closeModal');
+infoIcon.addEventListener('click', () => {
+    infoModal.style.display = 'block';
+});
+closeModal.addEventListener('click', () => {
+    infoModal.style.display = 'none';
+});
+window.addEventListener('click', (event) => {
+    if (event.target === infoModal) {
+        infoModal.style.display = 'none';
+    }
+});
+
+
+// USER
+let balance = parseFloat("@ViewBag.Balance".replace(',', '.')) || 0;
+let userName = "@ViewBag.Username";
+let totalWin = 0.0;
+let totalLoss = 0.0;
+let sessionProfit = 0.0;
+// ----------------------------
+
+document.querySelector('#username').textContent = userName;
+document.querySelector('#usermeat').textContent = balance.toFixed(2);
+
+const bet = document.getElementById('betSize')
+const playButton = document.querySelector('#playButton');
+const higherButton = document.querySelector('#higherButton');
+const lowerButton = document.querySelector('#lowerButton');
+const prof = document.querySelector('#prof');
+const currentCardPlaceholder = document.querySelector('#currentCard');
+const history = document.querySelector('#history');
+const loseModal = document.getElementById('loseModal');
+const playAgainButton = document.getElementById('playAgainButton');
+const cashOutButton = document.getElementById('cashOutButton');
+const profitDisplay = document.getElementById('profitInput');
+
+let betAmount;
+let count = 1;
+let currentProfit = 0.0;
+let currentCard;
+let currentArrow;
+var audio = new Audio('/igre/HigherLower/media/correct-choice.mp3');
+var fail_audio = new Audio('/igre/HigherLower/media/fail.wav');
+const first = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K"];
+const second = ["H", "D", "C", "S"];
+
+
+playButton.addEventListener('click', () => {
+    betAmount = parseFloat(bet.value);
+    if (isNaN(betAmount) || betAmount <= 0) {
+        alert("Please enter a valid bet amount greater than 0!");
+    } else if (balance < betAmount) {
+        alert("Not enough balance");
+    } else {
+        currentProfit = betAmount;
+        bet.readOnly = true;
+        playButton.style.display = 'none';
+        document.getElementById('prof').style.marginTop = '20%';
+        higherButton.style.display = 'inline-block';
+        lowerButton.style.display = 'inline-block';
+        cashOutButton.style.display = 'inline-block';
+        profitDisplay.style.display = 'inline-block';
+        prof.style.display = 'inline-block';
+        cashOutButton.textContent = 'CASH OUT';
+        startGame();
+    }
+    
+});
+
+higherButton.addEventListener('click', () => {
+    const prevCard = currentCard;
+    chooseCard();
+    displayCard();
+    const win = check(prevCard, "higher");
+    if (win) {
+        currentArrow = "green_up";
+        setTimeout(() => {
+            audio.play();
+        }, 1300);
+    } else {
+        currentArrow = "red_up";
+        setTimeout(() => {
+            fail_audio.play();
+            showLoseModal();
+        }, 2000);
+    }
+    setTimeout(() => {
+        profitDisplay.value = '\u{1F969}' + currentProfit.toFixed(2);
+        displayHistory();
+    }, 1300);
+});  
+
+lowerButton.addEventListener('click', () => {
+    const prevCard = currentCard;
+    chooseCard();
+    displayCard();
+    const win = check(prevCard, "lower");
+    if (win) {
+        currentArrow = "green_down";
+        setTimeout(() => {
+            audio.play();
+        }, 1000);
+    } else {
+        currentArrow = "red_down";
+        setTimeout(() => {
+            fail_audio.play();
+            showLoseModal();
+        }, 2000);
+    }
+    setTimeout(() => {
+        profitDisplay.value = '\u{1F969}' + currentProfit.toFixed(2);
+        displayHistory();
+    }, 1300)
+});
+
+
+function startGame() { 
+    chooseCard();
+    displayCard();
+    setTimeout(() => {
+        displayHistory();
+    }, 1300)
+}
+
+function chooseCard() {
+    const randomFirst = first[Math.floor(Math.random() * first.length)];
+    const randomSecond = second[Math.floor(Math.random() * second.length)];
+    
+    currentCard = `${randomFirst}${randomSecond}`;
+    console.log(currentCard);
+}
+
+function displayCard() {
+    const oldCard = currentCardPlaceholder.querySelector('img');
+    const img = document.createElement('img');
+    img.src = `/igre/HigherLower/media/poker_cards/${currentCard}.svg`;
+    img.alt = 'Current Card';
+    currentCardPlaceholder.appendChild(img);
+    img.addEventListener('animationend', () => {
+        if (oldCard) {
+            oldCard.remove();
+        }
+    });
+}
+
+function displayHistory() {
+    const cards = history.querySelectorAll('.card');
+    if (cards.length >= 5) {
+        history.removeChild(cards[0]);
+        const arrows = history.querySelectorAll('.arrow');
+        history.removeChild(arrows[0]);
+    }
+    const img = document.createElement('img');
+    img.src = `/igre/HigherLower/media/poker_cards/${currentCard}.svg`;
+    img.classList.add('card');
+    img.alt = 'Previous Card';
+    if (cards.length > 0) {
+        const arrow = document.createElement('img');
+        arrow.src = `/igre/HigherLower/media/arrows/${currentArrow}.svg`; 
+        arrow.alt = 'Arrow';
+        arrow.classList.add('arrow');
+        history.appendChild(arrow);
+    }
+    history.appendChild(img);
+}
+
+function check(prevCard, choosenDirection) {   // direction se ujema z current card
+    let direction;
+    const idx = first.indexOf(prevCard[0]);
+    const idx2 = first.indexOf(currentCard[0]);
+    if (idx == idx2) {
+        direction = choosenDirection;
+    } else if (idx < idx2) {
+        direction = "higher";
+    } else {
+        direction = "lower";
+    }
+    if (direction === choosenDirection) {
+        count++;
+        currentProfit *= (1 + count/10);
+        console.log("current profit: " + currentProfit);
+        return true;
+    }
+    currentProfit = - betAmount;
+    return false;
+    
+}
+
+// LOSE
+function showLoseModal() {
+    totalLoss += betAmount;
+    balance -= betAmount;
+    loseModal.style.display = 'block';
+
+    document.querySelector('#usermeat').textContent = balance.toFixed(2);
+
+    document.querySelector('#loseModal .modal-content h2').textContent = "You Lose";
+    document.querySelector('#loseModal .modal-content p').textContent = `You lost ${betAmount}\u{1F969}`;
+}
+playAgainButton.addEventListener('click', () => {
+    currentProfit = 0.0;
+    count = 1;
+    profitDisplay.value = '\u{1F969}' + currentProfit.toFixed(2);
+    bet.readOnly = false;
+
+    loseModal.style.display = 'none';
+    playButton.style.display = 'inline-block';
+    higherButton.style.display = 'none';
+    lowerButton.style.display = 'none';
+    cashOutButton.textContent = 'EXIT';
+    profitDisplay.style.display = 'none';
+    prof.style.display = 'none';
+
+    while (history.firstChild) {
+        history.removeChild(history.firstChild);
+    }
+    while (currentCardPlaceholder.firstChild) {
+        currentCardPlaceholder.removeChild(currentCardPlaceholder.firstChild);
+    }
+});
+
+function insert() {
+    const idPlayer = parseInt("@ViewBag.PlayerId");
+    
+    // Vnašanje oz posodobitev Balance
+    sessionProfit = totalWin - totalLoss;
+
+    fetch("/Igre/PosodobiBalance", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ idPlayer, sessionProfit }) // Objekt mora imeti idPlayer in sessionProfit
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error("Failed to update balance.");
+        }
+    })
+    .then(data => {
+        //alert(`Balance updated successfully. New balance: ${data.newBalance}`);
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("An error occurred.");
+    });
+    
+
+    // Vnašanje v GameState
+    const idGame = 2; // ID igre
+
+    const data = {
+        TotalWins: totalWin,
+        TotalLosses: totalLoss,
+        ID_player: idPlayer,
+        ID_game: idGame
+    };
+
+    fetch("/Igre/InsertGameState", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (response.ok) {
+            //alert("GameState successfully inserted!");
+        } else {
+            alert("Failed to insert GameState.");
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("An error occurred.");
+    });
+
+    // Preusmeritev na Casino
+    window.location.href = "@Url.Action("Index", "Casino")";
+}
+
+
+
+document.getElementById('exit').addEventListener('click', () => {
+    
+    insert();
+});
+
+// WIN
+cashOutButton.addEventListener('click', () => {
+    if (cashOutButton.textContent === 'EXIT') {
+        //SHRANI V BAZO
+        insert();
+        console.log('RELOAD'); 
+    } else {
+        if (currentProfit == betAmount) {
+            currentProfit = 0.0;
+            profitDisplay.value = '\u{1F969}' + currentProfit.toFixed(2);
+        }
+        totalWin += currentProfit;
+        balance += currentProfit;
+        document.querySelector('#usermeat').textContent = balance.toFixed(2);
+        document.querySelector('#loseModal .modal-content h2').textContent = "You Cashed Out";
+        document.querySelector('#loseModal .modal-content p').textContent = `You got ${currentProfit.toFixed(2)}\u{1F969}`;
+        loseModal.style.display = 'block';
+    }
+    
+});
+
+
+
+</script>
+}
+
+<link rel="stylesheet" href="/igre/HigherLower/style.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> 

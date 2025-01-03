@@ -1,0 +1,99 @@
+@model web.Models.GameState
+
+@{
+    ViewData["Title"] = "Create Game State";
+}
+
+<div class="gamestates-create">
+    <h1 style="color: #FFD700; text-align: center; text-shadow: 0 0 10px #FF4500;">Create New Game State</h1>
+
+    <form asp-action="Create" style="margin-top: 20px;">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="TotalWins" class="control-label" style="color: #FFD700;">Total Wins</label>
+            <input asp-for="TotalWins" class="form-control custom-input" />
+            <span asp-validation-for="TotalWins" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="TotalLosses" class="control-label" style="color: #FFD700;">Total Losses</label>
+            <input asp-for="TotalLosses" class="form-control custom-input" />
+            <span asp-validation-for="TotalLosses" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ID_player" class="control-label" style="color: #FFD700;">Player</label>
+            <select asp-for="ID_player" class="form-control custom-input" asp-items="ViewBag.ID_player"></select>
+        </div>
+        <div class="form-group">
+            <label asp-for="ID_game" class="control-label" style="color: #FFD700;">Game</label>
+            <select asp-for="ID_game" class="form-control custom-input" asp-items="ViewBag.ID_game"></select>
+        </div>
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-primary custom-submit-btn">Create</button>
+            <a asp-action="Index" class="btn btn-secondary custom-cancel-btn">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<style>
+/* Splošni stil za stran */
+.gamestates-create {
+    background-color: #2C2C2C; /* Temno ozadje za casino občutek */
+    color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    margin: 20px auto;
+    max-width: 500px; /* Omejimo širino obrazca */
+}
+
+/* Stil za vhodna polja */
+.custom-input {
+    background-color: #3C3C3C;
+    color: white;
+    border: 1px solid #FFD700;
+    border-radius: 5px;
+    padding: 10px;
+    transition: all 0.3s ease;
+}
+
+.custom-input:focus {
+    background-color: #444;
+    border-color: #FF4500;
+    box-shadow: 0 0 10px #FF4500;
+}
+
+/* Stil za gumbe */
+.custom-submit-btn {
+    background-color: #FF4500;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.custom-submit-btn:hover {
+    background-color: #FF6347; /* Svetlejša rdeča ob hoverju */
+    color: black;
+}
+
+.custom-cancel-btn {
+    background-color: #3C3C3C;
+    color: white;
+    border: 1px solid #FFD700;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.custom-cancel-btn:hover {
+    background-color: #444;
+    color: #FFD700;
+    border-color: #FF4500;
+}
+</style>

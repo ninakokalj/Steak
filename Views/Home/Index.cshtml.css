@@ -1,0 +1,249 @@
+/* HEADER */
+header nav {
+    background: linear-gradient(180deg, rgb(27, 24, 51) 0%, rgb(27, 24, 51) 50%, rgb(27, 24, 51)100%);
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.logo-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #A84459;
+    margin-right: 10px;
+    margin-left: 10px;
+    font-family: 'Oswald', sans-serif;
+
+
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease-in-out;
+}
+
+.logo-text:hover {
+    color: #FFD700;
+    border-bottom: 2px solid #FFD700;
+    cursor: pointer;
+}
+
+.steakLogo {
+    width: 35px;
+    height: 35px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.steakLogo:hover {
+    transform: scale(1.1);
+}
+
+
+
+
+
+
+
+
+
+
+
+.hero {
+    background: 
+        linear-gradient(90deg, rgba(2, 0, 36, 0.8) 0%, rgba(110, 11, 175, 0.8) 53%, rgba(0, 212, 255, 0.8) 100%), 
+        url('/images/hero.png'), /* Slika čez GIF */
+        url('/images/stars.gif'); /* GIF v ozadju */
+    
+    background-blend-mode: overlay, normal; /* Kombinira gradient s sliko, GIF ostane spodaj */
+    width: 100%; /* Širina hero sekcije */
+    height: 60vh; /* Večja višina hero sekcije */
+    
+    display: flex;
+    align-items: center; /* Vertikalno centriranje vsebine */
+    justify-content: flex-start; /* Poravnava vsebine levo */
+    padding: 50px 80px; /* Več prostora znotraj hero */
+    color: white; /* Barva besedila */
+    
+    background-size: cover, contain, cover; /* Različne velikosti za vsak sloj */
+    background-repeat: no-repeat; /* Prepreči ponavljanje za vse sloje */
+    background-position: center center, 90% 50%, center; /* Prilagodi pozicije za vsak sloj */
+}
+
+.hero-content {
+    max-width: 600px; /* Omeji širino vsebine za boljši videz */
+    background: rgba(0, 0, 0, 0.5); /* Polprosojno črno ozadje */
+    backdrop-filter: blur(10px); /* Zameglitev ozadja */
+    padding: 20px; /* Notranji odmik za boljši izgled */
+    border-radius: 10px; /* Zaobljeni robovi za bolj eleganten videz */
+    color: white; /* Zagotovi, da je besedilo belo za kontrast */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Dodaj subtilno senco */
+    margin-left: 100px; /* Premakni vsebino bolj na desno */
+}
+
+.hero h1 {
+    font-size: 4rem; /* Velikost naslova */
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 1.5rem; /* Velikost besedila */
+    margin-bottom: 25px;
+}
+
+
+/* Spreminjanje barve */
+@keyframes color-change {
+    0% { color: #FFD700; }
+    25% { color: #FF4500; }
+    50% { color: #FF6347; }
+    75% { color: #FFA07A; }
+    100% { color: #FFD700; }
+}
+
+/* Povečanje in zmanjšanje velikosti */
+@keyframes size-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+.glavni-naslov {
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center;
+    color: #FFD700;
+    text-shadow: 0 0 10px #FF4500, 0 0 20px #FF6347, 0 0 30px #FFA07A;
+    animation: color-change 3s infinite, size-pulse 2s infinite;
+}
+
+
+
+/* Dodana medijska poizvedba za širino do 1275px */
+@media (max-width: 1275px) {
+    .hero {
+        flex-direction: column; /* Postavitev v stolpec */
+        align-items: center; /* Centriraj vsebino horizontalno */
+        justify-content: center; /* Centriraj vsebino vertikalno */
+        padding: 20px; /* Zmanjšan notranji odmik */
+        height: auto; /* Prilagodi višino glede na vsebino */
+        background-size: cover, cover, cover; /* Ohranitev velikosti ozadij */
+    }
+
+    .hero-content {
+        max-width: 40%; /* Omeji širino vsebine */
+        margin: 20px auto; /* Centriraj vsebino z avtomatskimi odmiki */
+        text-align: center; /* Poravnava besedila na sredino */
+    }
+
+    .hero h1 {
+        font-size: 2.5rem; /* Zmanjšaj velikost naslova */
+        margin-bottom: 10px; /* Prilagodi razmik pod naslovom */
+    }
+
+    .hero p {
+        font-size: 1.2rem; /* Zmanjšaj velikost odstavka */
+        margin-bottom: 20px; /* Dodaj razmik pod odstavkom */
+    }
+
+    .hero-buttons {
+        flex-direction: column; /* Postavitev gumbov v stolpec */
+        gap: 15px; /* Manjši razmik med gumbi */
+        align-items: center; /* Centriraj gumbe */
+    }
+
+    .hero-buttons .btn {
+        width: 70%; /* Zmanjšana širina gumbov */
+        max-width: 300px; /* Omeji maksimalno širino gumbov */
+    }
+}
+
+/* ---------------------------------------------------------------------------- */
+
+
+.highlight-text {
+    font-size: 10rem; /* Večja velikost pisave */
+    font-weight: bold; /* Krepka pisava */
+    text-align: center; /* Centrirano besedilo */
+    color: #FFD700; /* Zlata barva za poudarek */
+    margin: 20px 0; /* Razmik zgoraj in spodaj */
+    text-shadow: 0 0 50px #FF4500, 0 0 10px #FF6347; /* Dodan sijaj za premium izgled */
+}
+
+
+/* Stolpci - levi in desni oglasi */
+.ced-ad-container {
+    background-color: #1B1833;
+    
+    border-radius: 10px; /* Zaobljeni robovi */
+    padding: 20px; /* Notranji odmik za vsebino */
+    text-align: center; /* Središči vsebino */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtilna senca */
+    margin-bottom: 20px; /* Dodaten prostor med oglasi */
+}
+
+.ced-ad-container img {
+    width: 100%; /* Naj bo slika vedno prilagojena širini starša */
+    height: 300px; /* Nastavite fiksno višino za vse slike */
+    object-fit: cover; /* Ohranite razmerje slike, odrežite presežke */
+    border-radius: 10px; /* Zaobljeni robovi slik */
+    margin-bottom: 15px; /* Prostor med slikami */
+}
+
+
+.content-container {
+    background: #25223b; /* Temni gradient za premium videz */
+    border-radius: 15px; /* Zaobljeni robovi */
+    padding: 30px; /* Notranji odmik za vsebino */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Globlja senca */
+    color: #F5F5F5; /* Svetlo siva za besedilo */
+}
+
+.content-container h1 {
+    font-size: 2.5rem; /* Velik in privlačen naslov */
+    color: #FFD700; /* Zlata za prestižen izgled */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.content-container p {
+    font-size: 1.2rem; /* Večja pisava za boljšo berljivost */
+    line-height: 1.8; /* Prostor med vrsticami za boljšo berljivost */
+    margin-bottom: 15px;
+    color: #EAEAEA; /* Svetlejša siva za besedilo */
+}
+
+
+/* Styling for Casino Games List */
+.casino-games-list {
+    list-style: none; /* Odstrani privzete oznake seznama */
+    padding: 0;
+    margin: 20px 0; /* Ustvari razmik okoli seznama */
+}
+
+.casino-games-list li {
+    background: linear-gradient(90deg, #2c3e50, #34495e); /* Temno gradientno ozadje */
+    color: #FFD700; /* Zlata barva za besedilo */
+    padding: 10px 15px; /* Ustvari prostor okoli besedila */
+    margin-bottom: 10px; /* Razmik med elementi */
+    border-radius: 8px; /* Zaobljeni robovi */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Subtilna senca */
+    transition: transform 0.2s, box-shadow 0.2s; /* Gladek prehod za animacije */
+    font-family: 'Arial', sans-serif; /* Profesionalna pisava */
+    display: flex; /* Uporabi flex za poravnavo */
+    align-items: center; /* Poravnaj vsebino na sredino */
+    gap: 10px; /* Razmik med ikono in besedilom */
+}
+
+.casino-games-list li:hover {
+    transform: scale(1.05); /* Povečanje ob prehodu miške */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Poudarjena senca */
+}
+
+.casino-games-list li::before {
+    content: "🎲"; /* Ikona pred elementom */
+    font-size: 1.5rem; /* Velikost ikone */
+    color: #FFA500; /* Oranžna barva za ikono */
+}

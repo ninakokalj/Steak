@@ -1,0 +1,91 @@
+@model web.Models.Game
+
+@{
+    ViewData["Title"] = "Create Game";
+}
+
+<div class="games-create">
+    <h1 style="color: #FFD700; text-align: center; text-shadow: 0 0 10px #FF4500;">Create New Game</h1>
+
+    <form asp-action="Create" style="margin-top: 20px;">
+        <div class="form-group">
+            <label asp-for="Game_name" class="control-label" style="color: #FFD700;">Game Name</label>
+            <input asp-for="Game_name" class="form-control custom-input" />
+            <span asp-validation-for="Game_name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Game_description" class="control-label" style="color: #FFD700;">Game Description</label>
+            <textarea asp-for="Game_description" class="form-control custom-input" rows="4"></textarea>
+            <span asp-validation-for="Game_description" class="text-danger"></span>
+        </div>
+
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-primary custom-submit-btn">Create</button>
+            <a asp-action="Index" class="btn btn-secondary custom-cancel-btn">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<style>
+/* Splošni stil za stran */
+.games-create {
+    background-color: #2C2C2C; /* Temno ozadje za casino občutek */
+    color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    margin: 20px auto;
+    max-width: 500px; /* Omejimo širino obrazca */
+}
+
+/* Stil za vhodna polja */
+.custom-input {
+    background-color: #3C3C3C;
+    color: white;
+    border: 1px solid #FFD700;
+    border-radius: 5px;
+    padding: 10px;
+    transition: all 0.3s ease;
+}
+
+.custom-input:focus {
+    background-color: #444;
+    border-color: #FF4500;
+    box-shadow: 0 0 10px #FF4500;
+}
+
+/* Stil za gumbe */
+.custom-submit-btn {
+    background-color: #FF4500;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.custom-submit-btn:hover {
+    background-color: #FF6347; /* Svetlejša rdeča ob hoverju */
+    color: black;
+}
+
+.custom-cancel-btn {
+    background-color: #3C3C3C;
+    color: white;
+    border: 1px solid #FFD700;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.custom-cancel-btn:hover {
+    background-color: #444;
+    color: #FFD700;
+    border-color: #FF4500;
+}
+</style>

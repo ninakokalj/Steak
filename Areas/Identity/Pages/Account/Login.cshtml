@@ -1,0 +1,172 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+<div class="login-page">
+    <h1 class="login-title">Log in</h1>
+    <div class="login-container">
+        <section>
+            <form id="account" method="post" class="login-form">
+                <div asp-validation-summary="ModelOnly" class="login-validation" role="alert"></div>
+                <div class="form-group">
+                    <label asp-for="Input.Email" class="form-label">Email</label>
+                    <input asp-for="Input.Email" class="form-input" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                    <span asp-validation-for="Input.Email" class="form-error"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Password" class="form-label">Password</label>
+                    <input asp-for="Input.Password" class="form-input" autocomplete="current-password" aria-required="true" placeholder="password" />
+                    <span asp-validation-for="Input.Password" class="form-error"></span>
+                </div>
+                <div class="form-group checkbox-group">
+                    <label asp-for="Input.RememberMe" class="checkbox-label">
+                        <input class="checkbox-input" asp-for="Input.RememberMe" />
+                        @Html.DisplayNameFor(m => m.Input.RememberMe)
+                    </label>
+                </div>
+                <div>
+                    <button id="login-submit" type="submit" class="login-button">Log in</button>
+                </div>
+                <div class="login-footer">
+                    <p>
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="register-link">Register as a new user</a>
+                    </p>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+/* Naslov Log in */
+.login-title {
+    font-size: 2.5rem; /* Velika pisava za poudarek */
+    color: #FFD700;
+    text-shadow: 0 0 15px #FFD700, 0 0 30px #FF8C00; /* Dodan bolj izrazit sijaj */
+    text-align: center; /* Poravnano na sredino */
+
+    padding: 10px 20px; /* Doda prostor okrog besedila */
+    border-radius: 12px; /* Zaobljeni robovi za prijetnejši izgled */
+    display: inline-block; /* Ustvari "kartico" za naslov */
+    margin-bottom: 20px; /* Prostor med naslovom in naslednjimi elementi */
+}
+
+
+/* Global settings */
+.login-page {
+    font-family: 'Arial', sans-serif;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column; /* Dodano za vertikalno postavitev */
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+}
+
+
+
+/* Login container */
+.login-container {
+    background: #1c1c1c;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+/* Form elements */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    text-align: left;
+}
+
+.form-label {
+    font-size: 1rem;
+    color: #FFD700;
+    margin-bottom: 5px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 2px solid #FFD700;
+    border-radius: 8px;
+    background: #2c3e50;
+    color: #FFD700;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #FF8C00;
+    box-shadow: 0 0 10px #FFD700, 0 0 20px #FF8C00;
+}
+
+/* Checkbox group */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-label {
+    font-size: 1rem;
+    color: #FFD700;
+}
+
+.checkbox-input {
+    margin-right: 10px;
+}
+
+/* Validation messages */
+.form-error {
+    color: #FF6347;
+    font-size: 0.9rem;
+}
+
+/* Button */
+.login-button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: bold;
+    background: #FFD700;
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.login-button:hover {
+    background: #FF8C00;
+    color: #fff;
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(255, 140, 0, 0.5);
+}
+
+/* Footer links */
+.register-link {
+    color: #FFD700;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.register-link:hover {
+    color: #FF8C00;
+    text-decoration: underline;
+}
+</style>

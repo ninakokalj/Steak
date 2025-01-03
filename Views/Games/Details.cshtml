@@ -1,0 +1,84 @@
+@model web.Models.Game
+
+@{
+    ViewData["Title"] = "Game Details";
+}
+
+<div class="games-details">
+    <h1 style="color: #FFD700; text-align: center; text-shadow: 0 0 10px #FF4500;">Game Details</h1>
+
+    <div class="details-content">
+        <dl class="row">
+            <dt class="col-sm-4">Game Name</dt>
+            <dd class="col-sm-8">@Model.Game_name</dd>
+
+            <dt class="col-sm-4">Game Description</dt>
+            <dd class="col-sm-8">@Model.Game_description</dd>
+        </dl>
+    </div>
+
+    <div class="details-buttons">
+        <a asp-action="Edit" asp-route-id="@Model.ID_game" class="btn btn-primary custom-edit-btn">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary custom-back-btn">Back to List</a>
+    </div>
+</div>
+
+<style>
+/* Splošni stil za stran */
+.games-details {
+    background-color: #2C2C2C; /* Temno ozadje za casino občutek */
+    color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    margin: 20px auto;
+    max-width: 600px; /* Omejimo širino prikaza */
+    text-align: left;
+}
+
+/* Stil za oznake (dt) in vrednosti (dd) */
+.details-content dt {
+    color: #FFD700; /* Zlata barva za oznake */
+    font-weight: bold;
+}
+
+.details-content dd {
+    color: white; /* Bela barva za vrednosti */
+    margin-bottom: 10px;
+}
+
+/* Stil za gumbe */
+.custom-edit-btn {
+    background-color: #FF4500; /* Intenzivna rdeča za urejanje */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.custom-edit-btn:hover {
+    background-color: #FF6347; /* Svetlejša rdeča ob hoverju */
+    color: black;
+}
+
+.custom-back-btn {
+    background-color: #3C3C3C; /* Temno ozadje za gumb */
+    color: white;
+    border: 1px solid #FFD700;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.custom-back-btn:hover {
+    background-color: #444; /* Svetlejša siva ob hoverju */
+    color: #FFD700; /* Zlata za besedilo */
+    border-color: #FF4500; /* Rdeča za obrobo */
+}
+</style>

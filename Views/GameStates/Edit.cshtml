@@ -1,0 +1,54 @@
+@model web.Models.GameState
+
+@{
+    ViewData["Title"] = "Edit GameState";
+}
+
+<div class="container mt-5">
+    <h1 class="text-center text-uppercase" style="color: #FFD700; text-shadow: 0 0 10px #FF8C00;">Edit GameState</h1>
+    <hr class="mb-4" style="border: 2px solid #FFD700;">
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form asp-action="Edit" class="bg-dark text-light p-4 rounded shadow">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <input type="hidden" asp-for="ID_stats" />
+
+                <div class="form-group mb-3">
+                    <label asp-for="TotalWins" class="form-label text-warning">Total Wins</label>
+                    <input asp-for="TotalWins" class="form-control" />
+                    <span asp-validation-for="TotalWins" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="TotalLosses" class="form-label text-warning">Total Losses</label>
+                    <input asp-for="TotalLosses" class="form-control" />
+                    <span asp-validation-for="TotalLosses" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="TotalProfitLoss" class="form-label text-warning">Total Profit/Loss</label>
+                    <input asp-for="TotalProfitLoss" class="form-control" />
+                    <span asp-validation-for="TotalProfitLoss" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="ID_player" class="form-label text-warning">Player</label>
+                    <select asp-for="ID_player" class="form-control" asp-items="ViewBag.ID_player"></select>
+                    <span asp-validation-for="ID_player" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="ID_game" class="form-label text-warning">Game</label>
+                    <select asp-for="ID_game" class="form-control" asp-items="ViewBag.ID_game"></select>
+                    <span asp-validation-for="ID_game" class="text-danger"></span>
+                </div>
+
+                <div class="text-center">
+                    <input type="submit" value="Save" class="btn btn-warning btn-lg px-4 me-2" />
+                    <a asp-action="Index" class="btn btn-secondary btn-lg px-4">Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
