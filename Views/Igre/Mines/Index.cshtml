@@ -35,13 +35,39 @@
     </div>
     <div id="grid" class="grid"></div>
     <button id="exit">Exit</button>
+    <i id="infoButton" class="fa-solid fa-circle-info"></i>
+    <div id="rulesModal" class="modal">
+        <div class="modal-content">
+            <span id="closeModal" class="close">&times;</span>
+            <h2>Game Rules</h2>
+            <p>1. Select bet size and the number of mines.</p>
+            <p>2. Click on a tile to reveal either a mine or an emerald.</p>
+            <p>3. If you reveal a mine, you lose the bet.</p>
+            <p>4. If you reveal an emerald, your profit increases based on the multiplier.</p>
+            <p>5. Cash out at any time to secure your profit.</p>
+        </div>
+    </div>
 </div>
 
 <p id="message"></p>
 
 @section Scripts {
 <script>
+const infoButton = document.getElementById('infoButton');
+const rulesModal = document.getElementById('rulesModal');
+const closeModal = document.getElementById('closeModal');
 
+infoButton.addEventListener('click', () => {
+    rulesModal.style.display = 'block';
+});
+closeModal.addEventListener('click', () => {
+    rulesModal.style.display = 'none';
+});
+window.addEventListener('click', (event) => {
+    if (event.target === rulesModal) {
+        rulesModal.style.display = 'none';
+    }
+});
 
 // Nastavi balance iz ViewBag
 let balance = parseFloat("@ViewBag.Balance".replace(',', '.')) || 0;
@@ -339,3 +365,4 @@ else betSizeInput.value = "0.00";
 
 <link rel="stylesheet" href="/igre/Mines/style.css">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
